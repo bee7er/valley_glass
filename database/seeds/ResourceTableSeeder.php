@@ -23,8 +23,6 @@ class ResourceTableSeeder extends Seeder {
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'How chips and waffles come from a potato.<br /> <a href="https://vimeo.com/145770435">Chips &amp; Waffles</a> from <a
 href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vimeo.com">Vimeo</a>.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -35,8 +33,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'video';
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'A little arachnid themed short I managed to squeeze out during spare time.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -47,8 +43,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'video';
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'My feline-vision-aid contribution to the Propz series.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -59,8 +53,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->template_id = $gifTemplate->id;
         $resource->url = 'blizzard_loop.gif';
         $resource->description = 'A little animation test.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -71,8 +63,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'video';
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'A series of quick morning cheats I designed and directed for Weetabix.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -83,8 +73,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'video';
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'My valentines-shoe contribution to the Propz series.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -95,8 +83,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'video';
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'My feline-vision-aid contribution to the Propz series.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -107,8 +93,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'video';
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'Award winning animated music video for US based band Escapist Papers.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -119,8 +103,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'video';
         $resource->template_id = $videoTemplate->id;
         $resource->description = 'Promo for Robbie Williams’ ‘Take the Crown’ album release.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -131,8 +113,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'image';
         $resource->template_id = $imageTemplate->id;
         $resource->description = 'Computer game style footballer…';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
 
         $resource = new Resource();
@@ -143,8 +123,6 @@ href="https://vimeo.com/russether">Russell Etheridge</a> on <a href="https://vim
         $resource->type = 'image';
         $resource->template_id = $imageTemplate->id;
         $resource->description = 'An animated Xmas card, created with Cinema 4D and After Effects.';
-        $resource->content_a = 'Hello from content A';
-        $resource->content_b = 'Hello from content B';
         $resource->save();
     }
 

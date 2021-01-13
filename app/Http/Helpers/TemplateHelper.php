@@ -23,8 +23,6 @@ class TemplateHelper
 		'BACKGROUND_COLOR' => ['backgroundColor' => 'The background color of the resource', 'default' => 'c4c4c4'],
 		'CREDIT_LABEL_COLOR' => ['creditTitleColor' => 'The credit label color of the resource title', 'default' =>
             '121212'],
-        'CONTENT_A' => ['content_a' => 'The copy for content A'],
-        'CONTENT_B' => ['content_b' => 'The copy for content B'],
         'CREDITS' => ['credits' => 'generateCredits'],
         'CONTENTS' => ['contents' => 'generateContents'],
 	];
@@ -180,14 +178,26 @@ class="col-xs-12 col-sm-12 col-md-12 col-lg-12 template-text" style="background-
 	 */
 	private static function generateUrlContents(Resource $resource, Content $content)
 	{
-		$html = '';
+		$html = '<div class="row template-row-container default-template-sub-container clearfix">';
 
-        $html .= '<div class="row template-row-container default-template-sub-container"><div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"><img src="' . $content->url . '" width="100%">';
-        // Generate html here if requested
-        if ('' !== trim($content->html)) {
-            $html .= '<br>' . $content->html;
+		$size = '12';
+		if ('' !== trim($content->url) && '' !== trim($content->html)) {
+			// Both divs required
+			$size = '6';
+		}
+        if ('' !== trim($content->url)) {
+            $html .= '<div class="col-xs-? col-sm-? col-md-? col-lg-? pull-left" style="text-align: center;"><img class="content-img"
+src="' . $content->url . '"
+width="250px"></div>';
         }
-        $html .= '</div></div>';
+        if ('' !== trim($content->html)) {
+            $html .= '<div class="col-xs-? col-sm-? col-md-? col-lg-? pull-right" style="text-align: left;margin-top: 8px;">
+'
+				. $content->html
+				. '</div>';
+        }
+		$html = str_replace('?', $size, $html);
+        $html .= '</div>';
 
 		return $html;
 	}

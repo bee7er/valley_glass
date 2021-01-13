@@ -1,23 +1,26 @@
 @extends('layouts.app')
-@section('title') {!! $videoTitle !!} @parent @endsection
+@section('title') about @parent @endsection
+
 @section('content')
 
-    @if($error)
+    <div id="about">&nbsp;</div>
+
+    <div class="title-row-container">
+        <div class="row template-title">
+            About
+        </div>
+    </div>
+
         <div class="row-container">
-            <div class="row error">
-                {!! $error !!}
+            <div class="row">
+                {!! $aboutText !!}
             </div>
         </div>
-    @else
 
-        {!! $video->rendered !!}
-
-    @endif
 @endsection
 
 @section('page-scripts')
     <script type="text/javascript">
-        var VIDEO = 0;
         $(document).ready( function()
         {
         });

@@ -17,6 +17,9 @@ class User extends Model implements AuthenticatableContract,
     use Authenticatable, Authorizable, CanResetPassword;
 
     protected $guarded  = array('id');
+
+    protected $dates = ['deleted_at'];
+
     /**
      * The attributes excluded from the model's JSON form.
      *

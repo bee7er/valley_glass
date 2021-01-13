@@ -7,16 +7,22 @@
 
     <title>@section('title') Administration @show</title>
     @section('meta_keywords')
-        <meta name="keywords" content="your, awesome, keywords, here"/>
+        <meta name="keywords" content="admin"/>
     @show @section('meta_author')
         <meta name="author" content="Jon Doe"/>
     @show @section('meta_description')
-        <meta name="description"
-              content="Lorem ipsum dolor sit amet, nihil fabulas et sea, nam posse menandri scripserit no, mei."/>
+        <meta name="description" content="Admin portion of this website"/>
     @show
+
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     <script src="{{ asset('js/admin.js') }}"></script>
+
     @yield('styles')
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
 </head>
 <body>
 <div id="wrapper">

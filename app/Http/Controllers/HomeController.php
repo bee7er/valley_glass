@@ -15,6 +15,7 @@ use App\Template;
 class HomeController extends Controller
 {
 	const ABOUT_TEMPLATE = '*About';
+	const CONTACT_TEMPLATE = '*Contact';
 
 	/**
 	 * The Guard implementation.
@@ -39,13 +40,14 @@ class HomeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index($isRepair = false)
 	{
 		$resources = Resource::select(
 			array(
 				'resources.id',
 				'resources.name',
 				'resources.description',
+				'resources.isRepair',
 				'resources.titleThumb',
 				'resources.titleThumbHover',
 				'resources.thumb',
@@ -58,12 +60,20 @@ class HomeController extends Controller
 				'resources.deleted_at'
 			)
 		)
+			->where(["resources.isRepair" => ($isRepair ? '1': '0')])
 			->orderBy("resources.seq")
 			->limit(999)->get();
+
+		$titleResource = null;
 
 		if ($resources->count() > 0) {
 			// Grab the first entry, it is the title entry
 			$titleResource = $resources->shift();
+			// But put it back if there is no title thimb specified
+			if (null == $titleResource->titleThumb) {
+				$resources->prepend($titleResource);
+				$titleResource = null;
+			}
 			// Derive the hover title image for each remaining entry and add it to the object
 			foreach ($resources as &$resource) {
 				// If we are to use the hover then generate the necessary HTML
@@ -84,42 +94,84 @@ class HomeController extends Controller
 					$resource->clickActionClass = 'work-image-clickable';
 				}
 			}
-
-			// Make sure we have an even number of entries, which is a factor of 3
-			$count = $resources->count();
-
-			$first = null;
-			$useImage = 0;
-			while (($count % 3) !== 0) {
-				$use = clone($resources->get($useImage));
-				$use['id'] = (9999 + $useImage);        // Dummy unique id
-				$resources = $resources->merge([$use]);
-				$count = $resources->count();
-				$useImage++;
-			}
 		}
 
-		$notices = Notice::select(
-			array(
-				'notices.id',
-				'notices.seq',
-				'notices.notice',
-				'notices.url',
-				'notices.deleted_at'
-			)
-		)
-			->orderBy("notices.seq")
-			->limit(999)->get();
+		$notices = null;
+//		$notices = Notice::select(
+//			array(
+//				'notices.id',
+//				'notices.seq',
+//				'notices.notice',
+//				'notices.url',
+//				'notices.deleted_at'
+//			)
+//		)
+//			->orderBy("notices.seq")
+//			->limit(999)->get();
 
+		$mode = $isRepair ? 'Repair Work': 'Design Work';
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		return view('pages.home', compact('resources', 'titleResource', 'mode', 'notices', 'loggedIn'));
+	}
+
+	/**
+	 * Show the application design resources page to the user.
+	 *
+	 * @return Response
+	 */
+	public function design()
+	{
+		return $this->index(0);
+	}
+
+	/**
+	 * Show the application design resources page to the user.
+	 *
+	 * @return Response
+	 */
+	public function repair()
+	{
+		return $this->index(1);
+	}
+
+	/**
+	 * Show the application about page to the user.
+	 *
+	 * @return Response
+	 */
+	public function about()
+	{
 		$about = Template::where([ 'name' => self::ABOUT_TEMPLATE, 'deleted_at' => null ])->get()->first();
-		$aboutText = $about->container;
+		$aboutText = $about->container ? : 'None';
 
 		$loggedIn = false;
 		if ($this->auth->check()) {
 			$loggedIn = true;
 		}
 
-		return view('pages.home', compact('resources', 'titleResource', 'aboutText', 'notices', 'loggedIn'));
+		return view('pages.about', compact('aboutText', 'loggedIn'));
+	}
+
+	/**
+	 * Show the application contact page to the user.
+	 *
+	 * @return Response
+	 */
+	public function contact()
+	{
+		$contact = Template::where([ 'name' => self::CONTACT_TEMPLATE, 'deleted_at' => null ])->get()->first();
+		$contactText = $contact->container ? : 'None';
+
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		return view('pages.contact', compact('contactText', 'loggedIn'));
 	}
 
 }

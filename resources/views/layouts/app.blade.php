@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Russ Etheridge :: @section('title') @show</title>
+    <title>Valley Glass :: @section('title') @show</title>
     @section('meta_keywords')
         <meta name="keywords" content="animation, animator, director, creator, designer"/>
     @show @section('meta_author')
@@ -13,11 +13,12 @@
     @show @section('meta_description')
         <meta name="description" content="Russ Etheridge is a free lance animator."/>
     @show
-        <meta property="og:title" content="Russ Etheridge">
-        <meta property="og:image" content="http://www.squaresquare.tv/public/img/thumbs/armstrong_hv.png">
-        <meta property="og:description" content="Russ Etheridge is a freelance Animator, Director and Designer. Please get in touch for more info and availability!">
+        <meta property="og:title" content="Brian Etheridge">
+        <meta property="og:image" content="http://www.glazzle.co.uk/wp-content/uploads/2015/09/black_hole.jpg">
+        <meta property="og:description" content="Brian Etheridge is a stained glass artisan with many years experience.
+        Please get in touch for more info and availability!">
 
-		<link href="{{ asset('css/site.css?v4.1') }}" rel="stylesheet">
+		<link href="{{ asset('css/site.css?v4.2') }}" rel="stylesheet">
         <script src="{{ asset('js/site.js?v4') }}"></script>
 
     @yield('styles')
@@ -27,9 +28,10 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <link rel="shortcut icon" href="http://www.squaresquare.tv/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="http://www.squaresquare.tv/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
 </head>
 <body>
 
@@ -49,7 +51,7 @@
     </div>
 
     <div class="row footer-row-container">
-        <div style="text-align: center;padding-top:80px;">&copy; {{ (new DateTime)->format('Y') }} Russ Etheridge</div>
+        <div style="text-align: center;padding-top:80px;">&copy; {{ (new DateTime)->format('Y') }} Brian Etheridge</div>
     </div>
 
 </div>

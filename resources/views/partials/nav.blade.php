@@ -23,9 +23,7 @@
                     <a href="{{ url('') }}"><i class="fa fa-home"></i> Home</a>
                 </li>
                 @if (!Auth::guest())
-                    <li class="{{ (Request::is('expressions') ? 'active' : '') }}">
-                        <a href="{{ url('expressions') }}">Expressions</a>
-                    </li>
+                    <!-- optional menu option -->
                 @endif
                 <li class="{{ (Request::is('about') ? 'active' : '') }}">
                     <a href="{{ url('about') }}">About</a>
