@@ -20605,6 +20605,19 @@ body {
   width: 1px;
 }
 
+.form-title {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.form-message {
+  text-align: left;
+  padding: 20px;
+  color: #fff;
+  font-weight: bold;
+}
+
+
 .about-text {
   text-align: left;
   padding: 20px;

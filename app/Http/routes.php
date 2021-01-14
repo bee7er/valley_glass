@@ -15,6 +15,7 @@ Route::get('/home', 'HomeController@index');
 Route::get('/design', 'HomeController@design');
 Route::get('/repair', 'HomeController@repair');
 Route::get('/contact', 'HomeController@contact');
+Route::post('/contact', 'HomeController@processContactForm');
 Route::get('/about', 'HomeController@about');
 // NB Using the following as an alias to video controller
 Route::get('/{name}', 'VideoController@show');

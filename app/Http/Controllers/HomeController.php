@@ -7,6 +7,7 @@ use Illuminate\Auth\Guard;
 use App\Notice;
 use App\Resource;
 use App\Template;
+use Illuminate\Http\Request;
 
 /**
  * Class HomeController
@@ -171,7 +172,32 @@ class HomeController extends Controller
 			$loggedIn = true;
 		}
 
-		return view('pages.contact', compact('contactText', 'loggedIn'));
+		$formMessage = null;
+
+		return view('pages.contact', compact('contactText', 'formMessage', 'loggedIn'));
+	}
+
+	/**
+	 * Process the form from the contact page
+	 *
+	 * @return Response
+	 */
+	public function processContactForm(Request $request)
+	{
+
+		//dd($request->all());
+
+		$contact = Template::where([ 'name' => self::CONTACT_TEMPLATE, 'deleted_at' => null ])->get()->first();
+		$contactText = $contact->container ? : 'None';
+
+		$loggedIn = false;
+		if ($this->auth->check()) {
+			$loggedIn = true;
+		}
+
+		$formMessage = 'Thank you. Your message has been sent.';
+
+		return view('pages.contact', compact('contactText', 'formMessage', 'loggedIn'));
 	}
 
 }
