@@ -51,7 +51,7 @@
     </div>
 
     <div class="row footer-row-container">
-        <div style="text-align: center;padding-top:80px;">&copy; {{ (new DateTime)->format('Y') }} Brian Etheridge</div>
+        <div style="text-align: center;padding-top:80px;">&copy; {{ (new DateTime)->format('Y') }} brian etheridge</div>
     </div>
 
 </div>

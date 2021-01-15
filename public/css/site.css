@@ -20575,6 +20575,10 @@ body {
   cursor: pointer;
 }
 
+.white-link-active {
+  color: #ffff00;
+}
+
 .social-icon {
   width: 30px;
   margin: 8px;

@@ -33,18 +33,22 @@
         $(document).ready( function()
         {
             // Capture csrf token on page load
-            document.getElementById('_token').value = '{{ csrf_token() }}';
+            $('#_token').val('{{ csrf_token() }}');
             function processForm(e) {
                 if (e.preventDefault) e.preventDefault();
 
-                document.getElementById("contactForm").submit();
+                // Validate the form fields
+
+                $("#contactForm").submit();
             }
             // Capture the submit form event
             let form = document.getElementById('contactForm');
-            if (form.attachEvent) {
-                form.attachEvent("submit", processForm);
-            } else {
-                form.addEventListener("submit", processForm);
+            if (form) {
+                if (form.attachEvent) {
+                    form.attachEvent("submit", processForm);
+                } else {
+                    form.addEventListener("submit", processForm);
+                }
             }
         });
     </script>
