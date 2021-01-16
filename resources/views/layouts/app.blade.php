@@ -7,14 +7,14 @@
 
     <title>Valley Glass :: @section('title') @show</title>
     @section('meta_keywords')
-        <meta name="keywords" content="animation, animator, director, creator, designer"/>
+        <meta name="keywords" content="stained glass, leaded glass, leaded windows"/>
     @show @section('meta_author')
         <meta name="author" content="Brian Etheridge"/>
     @show @section('meta_description')
-        <meta name="description" content="Russ Etheridge is a free lance animator."/>
+        <meta name="description" content="Brian Etheridge is a stained glass repairer, restorer and artisan"/>
     @show
         <meta property="og:title" content="Brian Etheridge">
-        <meta property="og:image" content="http://www.glazzle.co.uk/wp-content/uploads/2015/09/black_hole.jpg">
+        <meta property="og:image" content="img/images/black_hole.jpg">
         <meta property="og:description" content="Brian Etheridge is a stained glass artisan with many years experience.
         Please get in touch for more info and availability!">
 
@@ -32,6 +32,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
     <link rel="manifest" href="/favicon/site.webmanifest">
+
+    <link rel="stylesheet" href="https://bulma.io/css/bulma-docs.min.css?v=202012211605">
 </head>
 <body>
 
@@ -58,6 +60,28 @@
 
 @yield('global-scripts')
 @yield('page-scripts')
+
+<div id="imageModal" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-content has-background-white py-5 px-5">
+        <img id="image" class="content-img" src="" width="600px">
+    </div>
+    <button id="modal1Close" class="modal-close is-large" aria-label="close"></button>
+</div>
+
+<script type="text/javascript">
+    const imageModal = document.querySelector('#imageModal');
+    const image = document.querySelector('#image');
+
+    imageModal.addEventListener('click', function () {
+        imageModal.classList.remove('is-active');
+    });
+
+    function imageClicked(elem) {
+        image.src = elem.src;
+        imageModal.classList.add('is-active');
+    }
+</script>
 
 </body>
 </html>

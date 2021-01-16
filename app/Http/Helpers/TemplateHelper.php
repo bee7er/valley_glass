@@ -188,7 +188,7 @@ class="col-xs-12 col-sm-12 col-md-12 col-lg-12 template-text" style="background-
         if ('' !== trim($content->url)) {
             $html .= '<div class="col-xs-? col-sm-? col-md-? col-lg-? pull-left" style="text-align: center;"><img class="content-img"
 src="' . $content->url . '"
-width="250px"></div>';
+width="250px" onclick="imageClicked(this)"></div>';
         }
         if ('' !== trim($content->html)) {
             $html .= '<div class="col-xs-? col-sm-? col-md-? col-lg-? pull-right" style="text-align: left;margin-top: 8px;">
