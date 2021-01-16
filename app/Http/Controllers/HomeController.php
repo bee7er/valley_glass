@@ -96,26 +96,13 @@ class HomeController extends Controller
 			}
 		}
 
-		$notices = null;
-//		$notices = Notice::select(
-//			array(
-//				'notices.id',
-//				'notices.seq',
-//				'notices.notice',
-//				'notices.url',
-//				'notices.deleted_at'
-//			)
-//		)
-//			->orderBy("notices.seq")
-//			->limit(999)->get();
-
 		$mode = $isRepair ? 'Repair Work': 'Design Work';
 		$loggedIn = false;
 		if ($this->auth->check()) {
 			$loggedIn = true;
 		}
 
-		return view('pages.home', compact('resources', 'titleResource', 'mode', 'notices', 'loggedIn'));
+		return view('pages.home', compact('resources', 'titleResource', 'mode', 'loggedIn'));
 	}
 
 	/**

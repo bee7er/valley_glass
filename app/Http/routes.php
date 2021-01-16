@@ -4,7 +4,6 @@
 Route::model('language', 'App\Language');
 Route::model('template', 'App\Template');
 Route::model('resource', 'App\Resource');
-Route::model('notice', 'App\Notice');
 Route::model('user', 'App\User');
 Route::pattern('id', '[0-9]+');
 Route::pattern('slug', '[0-9a-z-_]+');
@@ -19,10 +18,8 @@ Route::post('/contact', 'HomeController@processContactForm');
 Route::get('/about', 'HomeController@about');
 // NB Using the following as an alias to content controller
 Route::get('/{name}', 'ContentController@show');
-//Route::get('video/{name}', 'ContentController@show');
 // Others
 Route::get('home', 'HomeController@index');
-//Route::get('template', 'PagesController@template');
 
 Route::controllers([
     'auth' => 'Auth\AuthController',
@@ -58,19 +55,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function() {
     Route::get('resource/{resource}/edit', 'Admin\ResourceController@edit');
     Route::get('resource/{resource}/delete', 'Admin\ResourceController@delete');
     Route::resource('resource', 'Admin\ResourceController');
-    # Notice
-    Route::get('notice/data', 'Admin\NoticeController@data');
-    Route::get('notice/{notice}/show', 'Admin\NoticeController@show');
-    Route::get('notice/{notice}/edit', 'Admin\NoticeController@edit');
-    Route::get('notice/{notice}/delete', 'Admin\NoticeController@delete');
-    Route::resource('notice', 'Admin\NoticeController');
-    # Credits
-    Route::get('credit/{resource}/index', 'Admin\CreditController@index');
-    Route::get('credit/{id}/edit', 'Admin\CreditController@edit');
-    Route::get('credit/{id}/delete', 'Admin\CreditController@delete');
-    Route::get('credit/{id}/destroy', 'Admin\CreditController@destroy');
-    Route::get('credit/data', 'Admin\CreditController@data');
-    Route::resource('credit', 'Admin\CreditController');
     # Contents
     Route::get('content/{resource}/index', 'Admin\ContentController@index');
     Route::get('content/{id}/edit', 'Admin\ContentController@edit');

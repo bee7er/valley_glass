@@ -24,24 +24,6 @@
                         <i class="fa fa-language"></i> Languages
                     </a>
                 </li>
-                {{--<li>--}}
-                    {{--<a href="#">--}}
-                        {{--<i class="glyphicon glyphicon-bullhorn"></i> Articles--}}
-                        {{--<span class="fa arrow"></span>--}}
-                    {{--</a>--}}
-                    {{--<ul class="nav collapse">--}}
-                        {{--<li>--}}
-                            {{--<a href="{{url('admin/articlecategory')}}">--}}
-                                {{--<i class="glyphicon glyphicon-list"></i>  Article categories--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                        {{--<li>--}}
-                            {{--<a href="{{url('admin/article')}}">--}}
-                                {{--<i class="glyphicon glyphicon-bullhorn"></i> Articles--}}
-                            {{--</a>--}}
-                        {{--</li>--}}
-                    {{--</ul>--}}
-                {{--</li>--}}
                 <li>
                     <a href="{{url('admin/template')}}">
                         <i class="glyphicon glyphicon-eye-close"></i> Templates
@@ -50,11 +32,6 @@
                 <li>
                     <a href="{{url('admin/resource')}}">
                         <i class="glyphicon glyphicon-eye-open"></i> Resources
-                    </a>
-                </li>
-                <li>
-                    <a href="{{url('admin/notice')}}">
-                        <i class="glyphicon glyphicon-eye-open"></i> Blog Entries
                     </a>
                 </li>
                 <li>

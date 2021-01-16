@@ -23,7 +23,6 @@
         <thead>
         <tr>
             <th>{!! trans("admin/resource.seq") !!}</th>
-            <th>{!! trans("admin/resource.type") !!}</th>
             <th>{!! trans("admin/resource.name") !!}</th>
             <th>{!! trans("admin/resource.description") !!}</th>
             <th>{!! trans("admin/resource.template") !!}</th>

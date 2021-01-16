@@ -51,37 +51,6 @@ INSERT INTO `contents` VALUES (1,1.00,'The main film','','https://player.vimeo.c
 UNLOCK TABLES;
 
 --
--- Table structure for table `credits`
---
-
-DROP TABLE IF EXISTS `credits`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `credits` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `seq` decimal(8,2) DEFAULT NULL,
-  `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `resourceId` int(10) unsigned DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `credits_resourceid_foreign` (`resourceId`),
-  CONSTRAINT `credits_resourceid_foreign` FOREIGN KEY (`resourceId`) REFERENCES `resources` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `credits`
---
-
-LOCK TABLES `credits` WRITE;
-/*!40000 ALTER TABLE `credits` DISABLE KEYS */;
-/*!40000 ALTER TABLE `credits` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `languages`
 --
 
@@ -139,35 +108,6 @@ LOCK TABLES `migrations` WRITE;
 /*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
 INSERT INTO `migrations` VALUES ('2014_10_12_000000_create_users_table',1),('2014_10_12_100000_create_password_resets_table',1),('2014_10_18_195027_create_languages_table',1),('2016_07_09_131600_create_templates_table',1),('2016_07_09_131700_create_resources_table',1);
 /*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `notices`
---
-
-DROP TABLE IF EXISTS `notices`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `notices` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `seq` decimal(5,2) unsigned DEFAULT '0.00',
-  `notice` text COLLATE utf8_unicode_ci,
-  `url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `notices`
---
-
-LOCK TABLES `notices` WRITE;
-/*!40000 ALTER TABLE `notices` DISABLE KEYS */;
-/*!40000 ALTER TABLE `notices` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -301,29 +241,6 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'Brian','brian','betheridge@gmail.com','$2y$10$I5coxELkOeXrr7O1L/CIQu3iDmyPOWtYh9zgt49mtaHWxy..l5np.','dcd443e19e4b041168dfb5e83a52d64e',1,1,'yuwZ9aURZIKjYocF53WIKIYnBcqH0a2tG6uD2NAxyG1KxHbyTbMmZuYojMgf','2016-07-17 13:51:04','2021-01-16 10:59:58',NULL),(2,'Russ','russ','contact@russelletheridge.com','$2y$10$I5coxELkOeXrr7O1L/CIQu3iDmyPOWtYh9zgt49mtaHWxy..l5np.','460a2c34e121cde19a6f7e1032db472e',1,1,'FQ6CJWmQTYCnJeDYWLXAdarL63drty1Yi8KoRcVKzOgX35d0wGRlSkxEBi4p','2016-07-17 13:51:05','2018-09-16 12:16:12',NULL),(3,'Test User','test_user','user@user.com','$2y$10$kfbDKLFLt3izY/P7L7Cjj.5Pnx.p2X..bO2fJNUaGX7MZ/5KTU/XK','49b09443042a2611da1db89544b6d4c6',1,0,NULL,'2016-07-17 13:51:05','2016-07-17 13:51:05',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `v`
---
-
-DROP TABLE IF EXISTS `v`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `v` (
-  `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `v`
---
-
-LOCK TABLES `v` WRITE;
-/*!40000 ALTER TABLE `v` DISABLE KEYS */;
-/*!40000 ALTER TABLE `v` ENABLE KEYS */;
-UNLOCK TABLES;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

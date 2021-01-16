@@ -113,7 +113,6 @@ class ResourceController extends AdminController
                 return [
                     'id' => $resource->id,
                     'seq' => $resource->seq,
-                    'type' => $resource->type,
                     'name' => $resource->name,
                     'description' => $resource->description,
                     'template' => isset($resource->template) ? $resource->template->name : "Unknown",
@@ -134,7 +133,6 @@ class ResourceController extends AdminController
 
         return Datatables::of($resources)
             ->add_column('actions', '<a href="{{{ url(\'admin/resource/\' . $id . \'/edit\' ) }}}" class="btn btn-success btn-sm iframe" ><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.edit") }}</a>
-                <a href="{{{ url(\'admin/credit/\' . $id . \'/index\' ) }}}" class="btn btn-success btn-sm iframe"><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.credits") }}</a>
                 <a href="{{{ url(\'admin/content/\' . $id . \'/index\' ) }}}" class="btn btn-success btn-sm iframe"><span class="glyphicon glyphicon-pencil"></span>  {{ trans("admin/modal.contents") }}</a>
                 <a href="{{{ url(\'admin/resource/\' . $id . \'/delete\' ) }}}" class="btn btn-sm btn-danger iframe"><span class="glyphicon glyphicon-trash"></span> {{ trans("admin/modal.delete") }}</a>
                 <input type="hidden" name="row" value="{{$id}}" id="row">')

@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Template;
-use App\Notice;
 use App\Resource;
 use App\User;
 
@@ -21,7 +20,6 @@ class DashboardController extends AdminController {
         $users = User::count();
         $template = Template::count();
         $resource = Resource::count();
-        $notice = Notice::count();
-		return view('admin.dashboard.index',  compact('title','resource','notice','template','users'));
+		return view('admin.dashboard.index',  compact('title','resource','template','users'));
 	}
 }
