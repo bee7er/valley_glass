@@ -2,7 +2,6 @@
 
 namespace App\Http\Helpers;
 
-use App\Credit;
 use App\Content;
 use App\Resource;
 
@@ -77,32 +76,6 @@ class TemplateHelper
 			}
 		}
 		return '';
-	}
-
-	/**
-	 * Generate credits
-	 *
-	 * @param Resource $resource
-	 * @return string
-	 */
-	private static function generateCredits(Resource $resource)
-	{
-		$html = '';
-		$credits = Credit::where('resourceId', $resource->id)
-			->orderBy('seq', 'ASC')
-			->get();
-
-		if (count($credits) > 0) {
-			foreach ($credits as $credit) {
-				if ('' !== $credit->title) {
-					$html .= '<div class="template-credits-label">' . $credit->title . '</div>';
-				}
-				if ('' !== $credit->name) {
-					$html .= '<div class="template-credits-text">' . $credit->name . '</div>';
-				}
-			}
-		}
-		return $html;
 	}
 
 	/**

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Auth\Guard;
 
-use App\Notice;
 use App\Resource;
 use App\Template;
 use Illuminate\Http\Request;
