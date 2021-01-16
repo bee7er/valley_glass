@@ -17,15 +17,12 @@ Route::get('/repair', 'HomeController@repair');
 Route::get('/contact', 'HomeController@contact');
 Route::post('/contact', 'HomeController@processContactForm');
 Route::get('/about', 'HomeController@about');
-// NB Using the following as an alias to video controller
-Route::get('/{name}', 'VideoController@show');
-Route::get('video/{name}', 'VideoController@show');
+// NB Using the following as an alias to content controller
+Route::get('/{name}', 'ContentController@show');
+//Route::get('video/{name}', 'ContentController@show');
 // Others
 Route::get('home', 'HomeController@index');
-Route::get('template', 'PagesController@template');
-Route::get('movin', 'PagesController@movin');
-Route::get('gif/{id}', 'GifController@show');
-Route::get('image/{id}', 'ImageController@show');
+//Route::get('template', 'PagesController@template');
 
 Route::controllers([
     'auth' => 'Auth\AuthController',

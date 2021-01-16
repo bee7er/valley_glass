@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title') {!! $videoTitle !!} @parent @endsection
+@section('title') {!! $title !!} @parent @endsection
 @section('content')
 
     @if($error)
@@ -10,14 +10,13 @@
         </div>
     @else
 
-        {!! $video->rendered !!}
+        {!! $resource->rendered !!}
 
     @endif
 @endsection
 
 @section('page-scripts')
     <script type="text/javascript">
-        var VIDEO = 0;
         $(document).ready( function()
         {
         });

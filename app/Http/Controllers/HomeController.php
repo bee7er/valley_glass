@@ -56,7 +56,6 @@ class HomeController extends Controller
 				'resources.useThumbHover',
 				'resources.isClickable',
 				'resources.url',
-				'resources.type',
 				'resources.seq',
 				'resources.deleted_at'
 			)

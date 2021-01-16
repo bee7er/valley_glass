@@ -37,7 +37,7 @@ CREATE TABLE `contents` (
   PRIMARY KEY (`id`),
   KEY `contents_resourceid_foreign` (`resourceId`),
   CONSTRAINT `contents_resourceid_foreign` FOREIGN KEY (`resourceId`) REFERENCES `resources` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `contents` (
 
 LOCK TABLES `contents` WRITE;
 /*!40000 ALTER TABLE `contents` DISABLE KEYS */;
-INSERT INTO `contents` VALUES (1,1.00,'The main film','','https://player.vimeo.com/video/388446129','','',NULL,'2020-02-24 10:39:07','2020-06-08 04:26:20',NULL);
+INSERT INTO `contents` VALUES (1,1.00,'The main film','','https://player.vimeo.com/video/388446129','','',NULL,'2020-02-24 10:39:07','2020-06-08 04:26:20',NULL),(54,1.00,'Original concept','/img/images/shower_man_concept.png','','<p class=\"content-text\">My biggest project so far. Six windows forming a ‘T’ in the hallway of a flat, much enhancing a kitchen and bathroom.\r\n\r\nThe client conceptualised the incredibly interesting design: a man showering in an upside down position with the water streaming over him. Great idea!</p>','',1,'2021-01-11 15:54:25','2021-01-11 16:09:14',NULL),(55,2.00,'Design','/img/images/shower_man_design.jpg','','<p class=\"content-text\">Interestingly, for the first time, the designs could be printed directly from the images created in the software package used. I cut them up and stuck them together, ending up with wonderfully accurate cartoons.</p>\r\n<p class=\"content-text\">Included there is the list of colours we intended to use. All 13 of them.</p>','',1,'2021-01-11 15:56:45','2021-01-11 16:11:21',NULL),(56,3.00,'Mockup','/img/images/shower_man_mockup.png','','<p class=\"content-text\">Here we have a virtual in-situ mock up of the entire set. A great way to visualise what the final set of panels would look like.</p>\r\n<p class=\"content-text\">We could tell it was going to be amazing in the end.</p>','',1,'2021-01-11 15:58:07','2021-01-11 16:12:49',NULL),(57,4.00,'Process','','','<p class=\"content-text\">It was the usual sequence of tasks: choosing the glass, cutting, leading, finishing.</p>','',1,'2021-01-11 16:16:04','2021-01-11 16:16:04',NULL),(58,5.00,'Process image 1','/img/images/shower_man_process1.jpg','','','',1,'2021-01-11 16:16:45','2021-01-11 16:16:45',NULL),(59,6.00,'Process image 2','/img/images/shower_man_process2.jpg','','','',1,'2021-01-11 16:17:05','2021-01-11 16:17:05',NULL),(60,7.00,'Process image 3','/img/images/shower_man_process3.jpg','','','',1,'2021-01-11 16:17:30','2021-01-11 16:17:30',NULL),(61,8.00,'Finished','/img/images/shower_man_finished.jpg','','<p class=\"content-text\">Once all six panels were completed it took just a morning to fit them all into the frames.</p>\r\n<p class=\"content-text\">Brilliant.</p>','',1,'2021-01-11 16:20:17','2021-01-11 16:20:17',NULL),(62,9.00,'Shower man hair','/img/images/shower_man_hair.jpg','','<p class=\"content-text\">The original glass was an ordinary mottled clear glass; what the trade call ‘toilet’ glass. The new panels are a great improvement, especially at night with subdued light shining through.</p>','',1,'2021-01-11 16:22:31','2021-01-11 16:22:31',NULL);
 /*!40000 ALTER TABLE `contents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +204,6 @@ DROP TABLE IF EXISTS `resources`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `resources` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `type` enum('video','gif','image') COLLATE utf8_unicode_ci NOT NULL,
   `seq` decimal(5,2) unsigned DEFAULT '0.00',
   `title` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -235,8 +234,7 @@ CREATE TABLE `resources` (
 
 LOCK TABLES `resources` WRITE;
 /*!40000 ALTER TABLE `resources` DISABLE KEYS */;
-INSERT INTO `resources` VALUES (1,'video',2.00,'olympops','olympops','<p>The Olympops video</p>','/img/thumbs/shower_man_hair_th.png',0,'/img/thumbs/shower_man_hair_hv.png',1,1,'','','ff0076','000','https://player.vimeo.com/video/205363016',1,
-'2017-02-17 11:19:20','2021-01-04 14:30:56',NULL);
+INSERT INTO `resources` VALUES (1,1.00,'Shower Man','showerman','<p style=\"border: 0px; font-family: Helvetica, sans-serif; font-size: 14px; margin-bottom: 15px; outline: 0px; padding: 0px; vertical-align: baseline; color: rgb(29, 29, 29);\">My biggest project so far. Six windows forming a ‘T’ in the hallway of a flat, much enhancing a kitchen and bathroom.</p><p style=\"border: 0px; font-family: Helvetica, sans-serif; font-size: 14px; margin-bottom: 15px; outline: 0px; padding: 0px; vertical-align: baseline; color: rgb(29, 29, 29);\">The client conceptualised the incredibly interesting design: a man showering in an upside down position with the water streaming over him. What a great idea?</p>',0,'/img/thumbs/shower_man_hair_th.png','/img/thumbs/shower_man_hair_hv.png',1,1,'','','008080','000','',28,'2017-02-17 11:19:20','2021-01-11 15:51:39',NULL);
 /*!40000 ALTER TABLE `resources` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -264,7 +262,7 @@ CREATE TABLE `templates` (
 
 LOCK TABLES `templates` WRITE;
 /*!40000 ALTER TABLE `templates` DISABLE KEYS */;
-INSERT INTO `templates` VALUES (28,'*Default template','<body style=\"background-color: ##BACKGROUND_COLOR#;\"/> <style>.template-credits-label { color: ##CREDIT_LABEL_COLOR#; } .template-credits-row-container { background-color: ##BACKGROUND_COLOR# }</style> <div class=\"template-details-title\">#TITLE#</div>#CONTENTS#   <!--<div class=\"template-credits-title\">credits</div> <div class=\"row template-credits-row-container\"> <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\"> #CREDITS#</div>-->   </div>','2020-02-24 11:20:08','2021-01-04 16:35:03',NULL),(29,'*About','<div class=\"about-text\"><p>I\'m Russ Etheridge, a Brighton-based Freelance Animation Director and Designer with a wide range of animation skills, including 2D & 3D character animation and motion graphics. I have 8+ years of experience in the motion industry, creating numerous high profile and award-winning campaigns.</p>   <p>Most recently I\'ve been producing my own client work for a range of UK and international clients. As well as freelancing for some super talented studios such as Moth, Animade and WeAreWednesday.</p>   <p>Previously I was Senior Creative at Animade where I worked as a Director, Designer and Team Lead to produce fresh and innovative animation for TV and online. I worked closely with their regular clients including Facebook, IBM and Virgin America.</p>  <p>I have also worked in senior and lead motion design roles in many London studios such as MPC, The Mill and Nexus.</p>  <p>If you\'d like to get in touch about a project I can help with or just to chew the fat, I\'d love to hear from you. See below for my contact details!</p></div>','2020-06-18 10:54:15','2020-06-18 10:58:45',NULL),(30,'*Contact','Contact details','2021-01-11 11:00:18','2021-01-11 11:00:18',NULL);
+INSERT INTO `templates` VALUES (28,'*Default template','<body style=\"background-color: ##BACKGROUND_COLOR#;\"/> <style>.template-credits-label { color: ##CREDIT_LABEL_COLOR#; } .template-credits-row-container { background-color: ##BACKGROUND_COLOR# }</style> <div class=\"template-details-title\">#TITLE#</div>#CONTENTS#   <!--<div class=\"template-credits-title\">credits</div> <div class=\"row template-credits-row-container\"> <div class=\"col-xs-12 col-sm-12 col-md-12 col-lg-12\"> #CREDITS#</div>-->   </div>','2020-02-24 11:20:08','2021-01-04 16:35:03',NULL),(29,'*About','<div class=\"about-text\"><p>Sunlight shining through glass. It may be textured, coloured or forged into interesting shapes. As you walk past, the light catches different angles and colours and the window comes alive with movement. Stained glass windows enhance walls, windows, doors and can even be free-standing. The sheer variation and beauty of this medium is why I learned how to work with stained glass and why I love doing it so much.</p><br/><p>This website shows some of the projects I have undertaken in creating new leaded windows and also projects for repairing or restoring existing leaded windows.</p><br/><p>Based in North London, I am always keen to take on new projects. If you have a window which would benefit from a new stained glass window, or if you have a leaded window which needs to be repaired, please contact me here for help with your design and a free estimate.</p><br/><p>brian etheridge</p></div>','2020-06-18 10:54:15','2021-01-16 10:40:45',NULL),(30,'*Contact','<div style=\"margin-top: 24px;text-align: left;\"><div class=\"form-title\">Please enter your details below and we will contact you to discuss your requirements.</div><form action=\"contact\" id=\"contactForm\" name=\"contactForm\" method=\"post\" class=\"\" novalidate=\"novalidate\"><input type=\"hidden\" id=\"_token\" name=\"_token\" value=\"\"><input type=\"hidden\" name=\"update\" value=\"1\"><p>Your Name<br><span class=\"\"><input type=\"text\" name=\"contactName\" value=\"\" size=\"40\" class=\"\"></span></p><p>Your Email<br><span class=\"\"><input type=\"email\" name=\"contactEmail\" value=\"\" size=\"40\" class=\"\"></span> </p><p>Your Message<br><span class=\"\"><textarea name=\"contactMessage\" cols=\"40\" rows=\"6\" class=\"\"></textarea></span></p><p><input type=\"submit\" value=\"Send\" class=\"submit-button\"></p></form></div><br>','2021-01-11 11:00:18','2021-01-11 17:53:00',NULL);
 /*!40000 ALTER TABLE `templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -300,7 +298,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Brian','brian','betheridge@gmail.com','$2y$10$I5coxELkOeXrr7O1L/CIQu3iDmyPOWtYh9zgt49mtaHWxy..l5np.','dcd443e19e4b041168dfb5e83a52d64e',1,1,'6ufgTMaOccsSaFrrgrnRMN6vaQ5JRHDUsBGpDpTPYacG7CnURkisYKFnIS01','2016-07-17 13:51:04','2021-01-04 14:32:39',NULL),(2,'Russ','russ','contact@russelletheridge.com','$2y$10$I5coxELkOeXrr7O1L/CIQu3iDmyPOWtYh9zgt49mtaHWxy..l5np.','460a2c34e121cde19a6f7e1032db472e',1,1,'FQ6CJWmQTYCnJeDYWLXAdarL63drty1Yi8KoRcVKzOgX35d0wGRlSkxEBi4p','2016-07-17 13:51:05','2018-09-16 12:16:12',NULL),(3,'Test User','test_user','user@user.com','$2y$10$kfbDKLFLt3izY/P7L7Cjj.5Pnx.p2X..bO2fJNUaGX7MZ/5KTU/XK','49b09443042a2611da1db89544b6d4c6',1,0,NULL,'2016-07-17 13:51:05','2016-07-17 13:51:05',NULL);
+INSERT INTO `users` VALUES (1,'Brian','brian','betheridge@gmail.com','$2y$10$I5coxELkOeXrr7O1L/CIQu3iDmyPOWtYh9zgt49mtaHWxy..l5np.','dcd443e19e4b041168dfb5e83a52d64e',1,1,'yuwZ9aURZIKjYocF53WIKIYnBcqH0a2tG6uD2NAxyG1KxHbyTbMmZuYojMgf','2016-07-17 13:51:04','2021-01-16 10:59:58',NULL),(2,'Russ','russ','contact@russelletheridge.com','$2y$10$I5coxELkOeXrr7O1L/CIQu3iDmyPOWtYh9zgt49mtaHWxy..l5np.','460a2c34e121cde19a6f7e1032db472e',1,1,'FQ6CJWmQTYCnJeDYWLXAdarL63drty1Yi8KoRcVKzOgX35d0wGRlSkxEBi4p','2016-07-17 13:51:05','2018-09-16 12:16:12',NULL),(3,'Test User','test_user','user@user.com','$2y$10$kfbDKLFLt3izY/P7L7Cjj.5Pnx.p2X..bO2fJNUaGX7MZ/5KTU/XK','49b09443042a2611da1db89544b6d4c6',1,0,NULL,'2016-07-17 13:51:05','2016-07-17 13:51:05',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -335,4 +333,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-01-11 12:22:20
+-- Dump completed on 2021-01-16 11:01:02

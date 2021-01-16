@@ -19,6 +19,8 @@ Mysql:
 	
 		mysql -uroot -psecret
 
+		mysqldump -uroot -psecret valley_glass_202101 > db.sql
+
 		create database valley_glass_202101;
 		
 	GRANT ALL ON valley_glass_202101.* TO brian@'localhost' IDENTIFIED BY 'Thylocine2105';
