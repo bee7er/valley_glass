@@ -1,12 +1,8 @@
-# Added automatically by Gridhost panel Wednesday 8th of March 2017 02:34:17 PM
+# Valley Glass Works
 Options -Indexes
 
-# RewriteEngine on
-# RewriteCond %{HTTP_HOST} ^russetheridge.com$ [NC,OR]
-# RewriteCond %{HTTP_HOST} ^www.russetheridge.com$
-# RewriteCond %{REQUEST_URI} !public/
-# Switch to https
-# RewriteRule (.*) https://russetheridge.com/public/$1 [L]
-# AddType x-httpd-php55 .php
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L]
 
-Redirect 301 / https://russetheridge.com/
+AddType x-httpd-php72 .php

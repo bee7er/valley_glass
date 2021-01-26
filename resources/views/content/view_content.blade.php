@@ -13,6 +13,11 @@
         {!! $resource->rendered !!}
 
     @endif
+
+    <div class="go-top" onclick="scrollToAnchor('top');"><img class="square" src="img/gotop.png"
+                                                              onmouseover="this.src='img/gotop_hv.png'"
+                                                              onmouseout="this.src='img/gotop.png'"></div>
+
 @endsection
 
 @section('page-scripts')

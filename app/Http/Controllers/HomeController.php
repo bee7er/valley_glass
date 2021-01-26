@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Auth\Guard;
 
 use App\Resource;
 use App\Template;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
+use Illuminate\Support\Facades\Validator;
+use SendGrid\Mail\Mail;
 
 /**
  * Class HomeController
@@ -14,8 +19,9 @@ use Illuminate\Http\Request;
  */
 class HomeController extends Controller
 {
+	use ValidatesRequests;
+
 	const ABOUT_TEMPLATE = '*About';
-	const CONTACT_TEMPLATE = '*Contact';
 
 	/**
 	 * The Guard implementation.
@@ -68,7 +74,7 @@ class HomeController extends Controller
 		if ($resources->count() > 0) {
 			// Grab the first entry, it is the title entry
 			$titleResource = $resources->shift();
-			// But put it back if there is no title thimb specified
+			// But put it back if there is no title thumb specified
 			if (null == $titleResource->titleThumb) {
 				$resources->prepend($titleResource);
 				$titleResource = null;
@@ -147,19 +153,15 @@ class HomeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function contact()
+	public function contact(Request $request)
 	{
-		$contact = Template::where([ 'name' => self::CONTACT_TEMPLATE, 'deleted_at' => null ])->get()->first();
-		$contactText = $contact->container ? : 'None';
-
+		$error = $success = null;
 		$loggedIn = false;
 		if ($this->auth->check()) {
 			$loggedIn = true;
 		}
 
-		$formMessage = null;
-
-		return view('pages.contact', compact('contactText', 'formMessage', 'loggedIn'));
+		return view('pages.contact', compact('request', 'error', 'success', 'loggedIn'));
 	}
 
 	/**
@@ -169,20 +171,94 @@ class HomeController extends Controller
 	 */
 	public function processContactForm(Request $request)
 	{
+		$error = $success = null;
+		try {
+			if ('test' === env('GOOGLE_RECAPTCHA_KEY'))
+			{
+				// Do not do the captcha check
+			} else {
+				// check if reCaptcha has been validated by Google
+				$secret = env('GOOGLE_RECAPTCHA_SECRET');
+				$captchaId = $request->input('g-recaptcha-response');
 
-		//dd($request->all());
+				//sends post request to the URL and tranforms response to JSON
+				$responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captchaId));
+				if (!$responseCaptcha->success) {
+					throw new \RuntimeException('Sorry, are you a robot? The Captcha failed to validate.');
+				}
+			}
 
-		$contact = Template::where([ 'name' => self::CONTACT_TEMPLATE, 'deleted_at' => null ])->get()->first();
-		$contactText = $contact->container ? : 'None';
+			// validate all form fields are filled
+			$validator = Validator::make($request->all(), [
+				'contactName'=> 'required',
+				'contactEmail' => 'required|email',
+				'contactMessage' => 'required'
+			], [
+				'required' => 'The :attribute field is required',
+				'email' => 'Please enter a valid email address',
+			]);
 
-		$loggedIn = false;
-		if ($this->auth->check()) {
-			$loggedIn = true;
+			if ($validator->fails())
+			{
+				$sep = $error = '';
+				foreach ($validator->errors()->all() as $message) {
+					$error .= ($sep . $message);
+					$sep = '<br>';
+				}
+			}
+
+			if (null === $error)
+			{
+				$this->sendEmail($request);
+
+				$success = 'Thank you. Your message has been sent.';
+			}
+		} catch (Exception $e)
+		{
+			$error = $e->getMessage();
 		}
 
-		$formMessage = 'Thank you. Your message has been sent.';
+		$loggedIn = $this->auth->check();
+		return view('pages.contact', compact('request', 'error', 'success', 'loggedIn'));
+	}
 
-		return view('pages.contact', compact('contactText', 'formMessage', 'loggedIn'));
+	/**
+	 * Process the form from the contact page
+	 */
+	public function sendEmail(Request $request)
+	{
+		$response = null;
+		try {
+			$email = new Mail();
+			$email->setFrom("betheridge@gmail.com", "Valley Glass Admin");
+			$email->setSubject("Contact by a visitor to Valley Glass");
+			$email->addTo("contact_bee@yahoo.com", "Valley Glass Admin");
+			$email->addContent("text/plain", "Details:");
+			$email->addContent("text/html",
+				"Name: <strong>{$request->get('contactName')}</strong><br>" .
+				"Email: <strong>{$request->get('contactEmail')}</strong><br>" .
+				"Message: <strong>{$request->get('contactMessage')}</strong><br>"
+			);
+
+			$sendgrid = new \SendGrid(getenv('SENDGRID_API_KEY'));
+
+			try {
+				$response = $sendgrid->send($email);
+				if (200 > $response->statusCode() || 299 < $response->statusCode()) {
+					print $response->statusCode() . "\n";
+					print_r($response->headers());
+					print $response->body() . "\n";
+				}
+			} catch (Exception $e) {
+				echo 'Caught exception: '.  $e->getMessage(). "\n";
+			}
+		} catch (Exception $e) {
+			print "Message could not be sent";
+			print $response->statusCode() . "\n";
+			print_r($response->headers());
+			print $response->body() . "\n";
+		}
+
 	}
 
 }

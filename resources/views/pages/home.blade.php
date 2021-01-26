@@ -3,14 +3,6 @@
 
 @section('content')
 
-    <div id="home">&nbsp;</div>
-
-    <div class="row-container">
-        <div class="row template-title">
-            {{ $mode }}
-        </div>
-    </div>
-
     @if($titleResource)
         <div class="title-row-container">
             <div class="row" onclick="document.location='{{url($titleResource->name)}}';">
@@ -22,7 +14,7 @@
     @if(count($resources)>0)
         <div class="row-container">
             <div class="row">
-                @foreach($resources as $resource)
+                @foreach($resources as $key=>$resource)
                     @if($resource->video)
                         <div {!! $resource->clickAction !!}>
                             <video class="work-image {!! $resource->clickActionClass !!} col-xs-12 col-sm-6 col-md-6
@@ -42,6 +34,10 @@
                                  src="{!! $resource->thumb !!}" title="" alt="{!! $resource->name !!}">
                         </div>
                     @endif
+                    @if($key > 0 && ($key + 1) % 3 === 0)
+                        <!-- Add a blank separator line to ensue panels line up correctly -->
+                        <div class="row-container"><div class="row">&nbsp;</div></div>
+                    @endif
                 @endforeach
             </div>
         </div>
@@ -52,6 +48,10 @@
             </div>
         </div>
     @endif
+
+    <div class="go-top" onclick="scrollToAnchor('top');"><img class="square" src="img/gotop.png"
+                                                              onmouseover="this.src='img/gotop_hv.png'"
+                                                              onmouseout="this.src='img/gotop.png'"></div>
 
     @if(count($resources)>0)
         {{-- Preload images --}}

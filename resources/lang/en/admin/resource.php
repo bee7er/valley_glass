@@ -4,6 +4,7 @@ return [
     'resource' => 'Resources',
     'type' =>  'Type',
     'seq' =>  'Sequence',
+    'isRepair' => 'Is this a repair project, 1=Yes, 0=No',
     'name' => 'Name',
     'description' => 'Description',
     'template' => 'Template',

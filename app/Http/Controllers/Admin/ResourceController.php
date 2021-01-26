@@ -7,7 +7,6 @@ use App\Http\Requests\Admin\ResourceRequest;
 use App\Http\Requests\Admin\DeleteRequest;
 use App\Http\Requests\Admin\ReorderRequest;
 use App\Template;
-use App\Helpers\Thumbnail;
 use Datatables;
 
 class ResourceController extends AdminController

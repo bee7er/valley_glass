@@ -31,6 +31,14 @@
                 <span class="help-block">{{ $errors->first('template_id', ':message') }}</span>
             </div>
         </div>
+        <div class="form-group {{ $errors->has('isRepair') ? 'error' : '' }}">
+            <label class="control-label" for="isRepair">
+                {{ trans("admin/resource.isRepair") }}</label>
+            <div class="controls">
+                {!! Form::text('isRepair', null, array('class' => 'form-control')) !!}
+            </div>
+            <div class="thumb-help">{{ trans("admin/resource.isRepairHelp") }}</div>
+        </div>
         <div class="form-group  {{ $errors->has('name') ? 'has-error' : '' }}">
             {!! Form::label('name', trans("admin/modal.name"), array('class' => 'control-label')) !!}
             <div class="controls">
@@ -131,13 +139,15 @@
                 <span class="help-block">{{ $errors->first('creditTitleColor', ':message') }}</span>
             </div>
         </div>
-        <div class="form-group {{ $errors->has('isHidden') ? 'error' : '' }}">
-            <label class="control-label" for="isHidden">
-                Is the entire resource hidden, 1=Yes, 0=No</label>
-            <div class="controls">
-                <input class="form-control" name="isHidden" type="text" value="{{ $resource->deleted_at ? '1': '0' }}">
+        @if (isset($resource))
+            <div class="form-group {{ $errors->has('isHidden') ? 'error' : '' }}">
+                <label class="control-label" for="isHidden">
+                    Is the entire resource hidden, 1=Yes, 0=No</label>
+                <div class="controls">
+                    <input class="form-control" name="isHidden" type="text" value="{{ $resource->deleted_at ? '1': '0' }}">
+                </div>
             </div>
-        </div>
+        @endif
         <!-- ./ general tab -->
     </div>
     <!-- ./ tabs content -->

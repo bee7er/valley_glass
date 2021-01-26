@@ -3,7 +3,8 @@
 
 <div class="row logo-menu-container">
     <div class="hidden-xs hidden-sm col-md-12 col-lg-12 header-block">
-        <div class="header-menu-left"><span onclick="gotoPage('home');">Valley Glass</span></div>
+        <div class="header-menu-left"><span onclick="gotoPage('home');"><img class="" src="{{config('app.base_url')
+        }}img/logo.png" width="128"/></span></div>
         <div class="header-menu-right">
             <span class="design" onclick="gotoPage('design');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">design</span><img class="square" src="{{config('app.base_url')}}img/square.png" /><span class="repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">repair</span><img class="square" src="{{config('app.base_url')}}img/square.png" /><span class="contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass('white-link-hover')" onmouseout="$(this).removeClass('white-link-hover')">free quote</span><img class="square" src="{{config('app.base_url')}}img/square.png" /><span class="about" onclick="gotoPage('about');" onmouseover="$(this).addClass('white-link-hover')" onmouseout="$(this).removeClass('white-link-hover')">about</span></div>
     </div>
@@ -88,7 +89,7 @@
         $(document).ready( function()
         {
             // Set the active menu option
-            let option = window.location.pathname.replace('/', '');
+            let option = window.location.pathname.replace('{{env('BASE_URL')}}', '');
             if (!option || option == 'home') {
                 option = 'design';
             }
