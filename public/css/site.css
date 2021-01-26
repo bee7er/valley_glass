@@ -20629,7 +20629,8 @@ body {
 }
 
 .form-error-message {
-  color: #640000;
+  color: #ff0000;
+  margin-bottom: 5px;
 }
 
 .about-text {
@@ -20648,9 +20649,12 @@ body {
   color: #000;
 }
 
-
 .contact-message {
   color: #000;
+}
+
+.contact-form-error {
+  background-color: #FFB6C1;
 }
 
 .submit-button {

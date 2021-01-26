@@ -171,21 +171,16 @@ class HomeController extends Controller
 	 */
 	public function processContactForm(Request $request)
 	{
-		$error = $success = null;
+		$errors = $successMessage = null;
 		try {
-			if ('test' === env('GOOGLE_RECAPTCHA_KEY'))
-			{
-				// Do not do the captcha check
-			} else {
-				// check if reCaptcha has been validated by Google
-				$secret = env('GOOGLE_RECAPTCHA_SECRET');
-				$captchaId = $request->input('g-recaptcha-response');
+			// check if reCaptcha has been validated by Google
+			$secret = env('GOOGLE_RECAPTCHA_SECRET');
+			$captchaId = $request->input('g-recaptcha-response');
 
-				//sends post request to the URL and tranforms response to JSON
-				$responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captchaId));
-				if (!$responseCaptcha->success) {
-					throw new \RuntimeException('Sorry, are you a robot? The Captcha failed to validate.');
-				}
+			//sends post request to the URL and tranforms response to JSON
+			$responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captchaId));
+			if (!$responseCaptcha->success) {
+				throw new \RuntimeException('Sorry, are you a robot? The Captcha failed to validate.');
 			}
 
 			// validate all form fields are filled
@@ -200,26 +195,21 @@ class HomeController extends Controller
 
 			if ($validator->fails())
 			{
-				$sep = $error = '';
-				foreach ($validator->errors()->all() as $message) {
-					$error .= ($sep . $message);
-					$sep = '<br>';
-				}
+				$errors = $validator->errors()->getMessages();
 			}
-
-			if (null === $error)
+			if (!is_array($errors))
 			{
 				$this->sendEmail($request);
 
-				$success = 'Thank you. Your message has been sent.';
+				$successMessage = 'Thank you. Your message has been sent.';
 			}
 		} catch (Exception $e)
 		{
-			$error = $e->getMessage();
+			$errors['captcha'] = [$e->getMessage()];
 		}
 
 		$loggedIn = $this->auth->check();
-		return view('pages.contact', compact('request', 'error', 'success', 'loggedIn'));
+		return view('pages.contact', compact('request', 'errors', 'successMessage', 'loggedIn'));
 	}
 
 	/**

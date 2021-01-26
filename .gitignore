@@ -3,5 +3,6 @@
 /vendor
 /node_modules
 .env
+.env_live
 .env_live_config
 composer.lock
