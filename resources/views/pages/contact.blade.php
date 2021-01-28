@@ -16,7 +16,8 @@
                         <form action="contact" id="contactForm" name="contactForm" method="post" class="" novalidate="novalidate">
                             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="update" value="1">
-                            <p>Your name<br><span class=""><input type="text" name="contactName" value="{{
+                            <p>Your name<br><span class=""><input type="text" id="contactName" name="contactName"
+                                                                  value="{{
                             $request->contactName }}" size="40"
                                    class="contact-name
                                 @if (is_array($errors) && isset($errors['contactName']))
@@ -28,7 +29,8 @@
                                     @endforeach
                                 @endif
                             </p>
-                            <p>Your email<br><span class=""><input type="email" name="contactEmail" size="40"
+                            <p>Your email<br><span class=""><input type="email" id="contactEmail" name="contactEmail"
+                                                                   size="40"
                                                                    class="contact-email
                                    @if (is_array($errors) && isset($errors['contactEmail']))
                                          contact-form-error
@@ -40,7 +42,8 @@
                                     @endforeach
                                 @endif
                             </p>
-                            <p>Your message<br><span class=""><textarea name="contactMessage" cols="40" rows="4"
+                            <p>Your message<br><span class=""><textarea id="contactMessage" name="contactMessage"
+                                                                        cols="40" rows="4"
                                                                         class="contact-message
                                    @if (is_array($errors) && isset($errors['contactMessage']))
                                         contact-form-error
@@ -77,10 +80,28 @@
         {
             function processForm(e) {
                 if (e.preventDefault) e.preventDefault();
-
+                let msg = sep = '';
                 // Validate the form fields
+                if (!$('#contactName').val().trim()) {
+                    msg += (sep + 'Please enter your name');
+                    sep = "\n";
+                }
+                if (!$('#contactEmail').val().trim()) {
+                    msg += (sep + 'Please enter your email address');
+                    sep = "\n";
+                }
+                if (!$('#contactMessage').val().trim()) {
+                    msg += (sep + 'Please enter your message');
+                    sep = "\n";
+                }
+                if (msg) {
+                    msg += ("\n\nDon't forget to check the Captcha\nThank you");
+                    alert(msg);
+                    return false;
+                }
 
                 $("#contactForm").submit();
+                return true;
             }
             // Capture the submit form event
             let form = document.getElementById('contactForm');
