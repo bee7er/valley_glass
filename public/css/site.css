@@ -20651,6 +20651,7 @@ body {
 
 .contact-message {
   color: #000;
+  padding: 4px;
 }
 
 .contact-form-error {

@@ -5,7 +5,7 @@
 
         <div class="row-container">
             <div class="row">
-                @if (null !== $successMessage)
+                @if (isset($successMessage))
                     <div class="form-message">
                         {{ $successMessage }}
                     </div>

@@ -173,16 +173,6 @@ class HomeController extends Controller
 	{
 		$errors = $successMessage = null;
 		try {
-			// check if reCaptcha has been validated by Google
-			$secret = env('GOOGLE_RECAPTCHA_SECRET');
-			$captchaId = $request->input('g-recaptcha-response');
-
-			//sends post request to the URL and tranforms response to JSON
-			$responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captchaId));
-			if (!$responseCaptcha->success) {
-				throw new \RuntimeException('Sorry, are you a robot? The Captcha failed to validate.');
-			}
-
 			// validate all form fields are filled
 			$validator = Validator::make($request->all(), [
 				'contactName'=> 'required',
@@ -197,6 +187,17 @@ class HomeController extends Controller
 			{
 				$errors = $validator->errors()->getMessages();
 			}
+
+			// check if reCaptcha has been validated by Google
+			$secret = env('GOOGLE_RECAPTCHA_SECRET');
+			$captchaId = $request->input('g-recaptcha-response');
+			//sends post request to the URL and tranforms response to JSON
+			$responseCaptcha = json_decode(file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret=' . $secret . '&response=' . $captchaId));
+			if (!$responseCaptcha->success)
+			{
+				$errors['captcha'] = ['Sorry, are you a robot? The Captcha failed to validate.'];
+			}
+
 			if (!is_array($errors))
 			{
 				$this->sendEmail($request);
