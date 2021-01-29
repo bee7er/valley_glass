@@ -48,6 +48,9 @@ class HomeController extends Controller
 	 */
 	public function index($isRepair = false)
 	{
+		$about = Template::where([ 'name' => self::ABOUT_TEMPLATE, 'deleted_at' => null ])->get()->first();
+		$aboutText = $about->container ? : 'None';
+
 		$resources = Resource::select(
 			array(
 				'resources.id',
@@ -107,7 +110,7 @@ class HomeController extends Controller
 			$loggedIn = true;
 		}
 
-		return view('pages.home', compact('resources', 'titleResource', 'mode', 'loggedIn'));
+		return view('pages.home', compact('aboutText', 'resources', 'titleResource', 'mode', 'loggedIn'));
 	}
 
 	/**

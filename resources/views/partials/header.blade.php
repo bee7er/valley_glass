@@ -2,26 +2,27 @@
 <div id="top">&nbsp;</div>
 
 <div class="row logo-menu-container">
-    <div class="hidden-xs hidden-sm col-md-12 col-lg-12 header-block">
-        <div class="header-menu-left"><span onclick="gotoPage('home');"><img class="" src="{{config('app.base_url')
-        }}img/logo.png" width="128" title="Valley Glass Works" /></span></div>
+    <div class="hidden-xs hidden-sm col-md-12 col-lg-12 header-block clearfix">
+        <div class="header-menu-left"><span onclick="gotoPage('home');"><img
+           class="" src="{{config('app.base_url')}}img/logo.png" width="128" title="Valley Glass Works" /></span>
+        </div>
         <div class="header-menu-right">
-            <span class="design" onclick="gotoPage('design');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">design</span><img class="square" src="{{config('app.base_url')}}img/square.png" /><span class="repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">repair</span><img class="square" src="{{config('app.base_url')}}img/square.png" /><span class="contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass('white-link-hover')" onmouseout="$(this).removeClass('white-link-hover')">contact</span><img class="square" src="{{config('app.base_url')}}img/square.png" /><span class="about" onclick="gotoPage('about');" onmouseover="$(this).addClass('white-link-hover')" onmouseout="$(this).removeClass('white-link-hover')">about</span></div>
+            <span class="home" onclick="gotoPage('home');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">HOME</span><span class="design" onclick="gotoPage('design');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">DESIGN</span><span class="repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">REPAIRS</span><span class="contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass('white-link-hover')" onmouseout="$(this).removeClass('white-link-hover')">GET QUOTE</span>
+
+            <div class="" style="border: 1px solid red;">
+                <span>{!! $aboutText !!}</span>
+            </div>
+        </div>
     </div>
     <div class="hidden-xs col-sm-12 hidden-md hidden-lg header-block">
         <div><span onclick="gotoPage('home');"><img class="" src="{{config('app.base_url')
         }}img/logo.png" width="96" title="Valley Glass Works" /></span></div>
         <span class="design" onclick="gotoPage('design');" onmouseover="$(this).addClass('white-link-hover');"
               onmouseout="$(this).removeClass('white-link-hover')">design</span>
-        <img class="square" src="{{config('app.base_url')}}img/square.png" />
         <span class="repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass('white-link-hover');"
               onmouseout="$(this).removeClass('white-link-hover')">repair</span>
-        <img class="square" src="{{config('app.base_url')}}img/square.png" />
         <span class="contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass('white-link-hover')"
-              onmouseout="$(this).removeClass('white-link-hover')">contact</span>
-        <img class="square" src="{{config('app.base_url')}}img/square.png" />
-        <span class="about" onclick="gotoPage('about');" onmouseover="$(this).addClass('white-link-hover')"
-              onmouseout="$(this).removeClass('white-link-hover')">about</span>
+              onmouseout="$(this).removeClass('white-link-hover')">GET QUOTE</span>
     </div>
     <div class="col-xs-12 hidden-sm hidden-md hidden-lg header-block">
         <div><span onclick="gotoPage('home');"><img class="" src="{{config('app.base_url')
@@ -34,8 +35,6 @@
                     ('white-link-hover');"
                           onmouseout="$(this).removeClass('white-link-hover')">design</span>
                 </td>
-                <td class="square-vertical logo-menu-table-center"><img src="{{config('app.base_url')}}img/square.png"
-                    /></td>
                 <td class="logo-menu-table-right">
                     <span class="white-link repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass
                     ('white-link-hover')"
@@ -49,11 +48,8 @@
                           onmouseout="$(this).removeClass('white-link-hover')
                                                     ">contact</span>
                 </td>
-                <td class="square-vertical logo-menu-table-center"><img src="{{config('app.base_url')}}img/square.png" /></td>
                 <td class="logo-menu-table-right">
-                    <span class="white-link about" onclick="gotoPage('about');" onmouseover="$(this).addClass
-                    ('white-link-hover')"
-                          onmouseout="$(this).removeClass('white-link-hover')">about</span>
+                    &nbsp;
                 </td>
             </tr>
             </tbody>
@@ -73,8 +69,6 @@
                 document.location = ("{{config('app.base_url')}}" + "repair");
             } else if (aid == "contact") {
                 document.location = ("{{config('app.base_url')}}" + "contact");
-            } else if (aid == "about") {
-                document.location = ("{{config('app.base_url')}}" + "about");
             } else {
                 document.location = ("{{config('app.base_url')}}" + "home#" + aid);
             }

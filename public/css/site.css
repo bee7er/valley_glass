@@ -12,15 +12,6 @@ html {
   -ms-text-size-adjust: 100%;
 }
 
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-}
-
-span {
-  font-family: 'Roboto', sans-serif;
-}
-
 article,
 aside,
 details,
@@ -20228,11 +20219,14 @@ body {
   text-align: left;
   float: left;
   cursor: pointer;
+  width: 15%;
 }
 
 .header-menu-right {
-  text-align: right;
+  text-align: left;
   float: right;
+  width: 85%;
+  padding-top: 20px;
 }
 
 @media (min-width: 1200px) {
@@ -20633,12 +20627,32 @@ body {
   margin-bottom: 5px;
 }
 
-.about-text {
+.about-text, .about-text-title {
   text-align: left;
-  padding: 20px;
+  padding: 0px;
+  font-size: 14px;
 }
 
 .blog-text {
+}
+
+.home {
+  float: left;
+  margin-right: 25px;
+}
+
+.design {
+  float: left;
+  margin-right: 25px;
+}
+
+.repair {
+  float: left;
+  margin-right: 25px;
+}
+
+.contact {
+  float: right;
 }
 
 .contact-name {
