@@ -34,10 +34,6 @@
                                  src="{!! $resource->thumb !!}" title="" alt="{!! $resource->name !!}">
                         </div>
                     @endif
-                    @if($key > 0 && ($key + 1) % 3 === 0)
-                        <!-- Add a blank separator line to ensue panels line up correctly -->
-                        <div class="row-container"><div class="row">&nbsp;</div></div>
-                    @endif
                 @endforeach
             </div>
         </div>

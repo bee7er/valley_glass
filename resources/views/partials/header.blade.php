@@ -2,25 +2,27 @@
 <div id="top">&nbsp;</div>
 
 <div class="row logo-menu-container">
-    <div class="hidden-xs hidden-sm col-md-12 col-lg-12 header-block clearfix">
+    <div class="hidden-xs hidden-sm col-md-12 col-lg-12 header-block">
         <div class="header-menu-left"><span onclick="gotoPage('home');"><img
            class="" src="{{config('app.base_url')}}img/logo.png" width="128" title="Valley Glass Works" /></span>
         </div>
-        <div class="header-menu-right">
-            <span class="home" onclick="gotoPage('home');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">HOME</span><span class="design" onclick="gotoPage('design');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">DESIGN</span><span class="repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">REPAIRS</span><span class="contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass('white-link-hover')" onmouseout="$(this).removeClass('white-link-hover')">GET QUOTE</span>
+        <div class="header-menu-right clearfix"><span class="design" onclick="gotoPage('design');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">DESIGN</span><span class="repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass('white-link-hover');" onmouseout="$(this).removeClass('white-link-hover')">REPAIRS</span><span class="contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass('white-link-hover')" onmouseout="$(this).removeClass('white-link-hover')">GET QUOTE</span>
+        </div>
 
-            <div class="" style="border: 1px solid red;">
+        @if(isset($aboutText))
+            <div class="about-text-block">
                 <span>{!! $aboutText !!}</span>
             </div>
-        </div>
+        @endif
+
     </div>
     <div class="hidden-xs col-sm-12 hidden-md hidden-lg header-block">
         <div><span onclick="gotoPage('home');"><img class="" src="{{config('app.base_url')
         }}img/logo.png" width="96" title="Valley Glass Works" /></span></div>
         <span class="design" onclick="gotoPage('design');" onmouseover="$(this).addClass('white-link-hover');"
-              onmouseout="$(this).removeClass('white-link-hover')">design</span>
+              onmouseout="$(this).removeClass('white-link-hover')">DESIGN</span>
         <span class="repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass('white-link-hover');"
-              onmouseout="$(this).removeClass('white-link-hover')">repair</span>
+              onmouseout="$(this).removeClass('white-link-hover')">REPAIRS</span>
         <span class="contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass('white-link-hover')"
               onmouseout="$(this).removeClass('white-link-hover')">GET QUOTE</span>
     </div>
@@ -33,23 +35,18 @@
                 <td class="logo-menu-table-left">
                     <span class="white-link design" onclick="gotoPage('design');" onmouseover="$(this).addClass
                     ('white-link-hover');"
-                          onmouseout="$(this).removeClass('white-link-hover')">design</span>
+                          onmouseout="$(this).removeClass('white-link-hover')">DESIGN</span>
                 </td>
                 <td class="logo-menu-table-right">
                     <span class="white-link repair" onclick="gotoPage('repair');" onmouseover="$(this).addClass
                     ('white-link-hover')"
-                          onmouseout="$(this).removeClass('white-link-hover')">repair</span>
+                          onmouseout="$(this).removeClass('white-link-hover')">REPAIRS</span>
                 </td>
-            </tr>
-            <tr>
                 <td class="logo-menu-table-left">
                     <span class="white-link contact" onclick="gotoPage('contact');" onmouseover="$(this).addClass
                     ('white-link-hover')"
                           onmouseout="$(this).removeClass('white-link-hover')
-                                                    ">contact</span>
-                </td>
-                <td class="logo-menu-table-right">
-                    &nbsp;
+                                                    ">QUOTE</span>
                 </td>
             </tr>
             </tbody>

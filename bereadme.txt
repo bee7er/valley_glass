@@ -11,7 +11,13 @@ To run locally in Chrome:
 
     with betheridge@gmail.com / Cando
 
-Use GIT.
+Use GIT.  Had to set up SSH access to github
+
+    https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh
+
+Then set the repo details for valley_glass to use SSH
+
+    git remote set-url origin git@github.com:bee7er/valley_glass.git
 
 Mysql:
 
