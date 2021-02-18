@@ -9,7 +9,7 @@
     @section('meta_keywords')
         <meta name="keywords" content="stained glass, leaded glass, leaded windows"/>
     @show @section('meta_author')
-        <meta name="author" content="Brian Etheridge"/>
+        <meta name="author" content="Brian Etheridge web designer and programmer"/>
     @show @section('meta_description')
         <meta name="description" content="Brian Etheridge is a stained glass repairer, restorer and artisan"/>
     @show

@@ -20750,4 +20750,16 @@ body {
   .video-frame {
     border: 0;
   }
+
+  .contact-name {
+    width: 50%;
+  }
+
+  .contact-email {
+    width: 50%;
+  }
+
+  .contact-message {
+    width: 50%;
+  }
 }
