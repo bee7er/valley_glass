@@ -84,5 +84,16 @@
     }
 </script>
 
+<div class="js-cookie-consent cookie-consent fixed-bottom bg-success p-2 text-light text-center">
+kkjhkjhkjh
+    <span class="cookie-consent__message">
+        We use cookies to give you the best online experience. By continuing to browse the site you are agreeing to our use of cookies.
+    </span>
+
+    <button class="js-cookie-consent-agree cookie-consent__agree btn btn-sm btn-primary">
+        I Agree
+    </button>
+
+</div>
 </body>
 </html>

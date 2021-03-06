@@ -20752,14 +20752,14 @@ body {
   }
 
   .contact-name {
-    width: 50%;
+    width: 90%;
   }
 
   .contact-email {
-    width: 50%;
+    width: 90%;
   }
 
   .contact-message {
-    width: 50%;
+    width: 90%;
   }
 }
