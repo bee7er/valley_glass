@@ -51,6 +51,16 @@
 
         @yield('content')
 
+        <div class="cookie-consent-dialog fixed-bottom text-light text-center" id="cookieConsent" style="display: none;">
+            <span class="cookie-consent-message">
+                We use cookies to give you the best online experience. By continuing to browse the site you are agreeing to our use of cookies.
+            </span>
+
+            <button class="btn btn-sm btn-success" id="giveCookieConsent">
+                I Agree
+            </button>
+        </div>
+
     </div>
 
     <div class="row footer-row-container">
@@ -82,18 +92,19 @@
         image.src = elem.src;
         imageModal.classList.add('is-active');
     }
+
+    // Cookie consent
+    const consentModal = document.querySelector('#cookieConsent');
+    const giveCookieConsent = document.querySelector('#giveCookieConsent');
+    giveCookieConsent.addEventListener('click', function () {
+        localStorage.setItem("cookieConsent", "Consent given");
+        $(consentModal).fadeOut(600);
+    });
+    // Has the user consented to cookies?
+    let isCookieConsent = localStorage.getItem("cookieConsent");
+    if (null === isCookieConsent) {
+        consentModal.style.display = 'block';
+    }
 </script>
-
-<div class="js-cookie-consent cookie-consent fixed-bottom bg-success p-2 text-light text-center">
-kkjhkjhkjh
-    <span class="cookie-consent__message">
-        We use cookies to give you the best online experience. By continuing to browse the site you are agreeing to our use of cookies.
-    </span>
-
-    <button class="js-cookie-consent-agree cookie-consent__agree btn btn-sm btn-primary">
-        I Agree
-    </button>
-
-</div>
 </body>
 </html>

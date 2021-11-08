@@ -27,9 +27,13 @@ Mysql:
 
 		mysqldump -uroot -psecret valley_glass_202101 > db.sql
 
-		create database valley_glass_202101;
-		
-	GRANT ALL ON valley_glass_202101.* TO brian@'localhost' IDENTIFIED BY 'Thylocine2105';
+		drop database valleygl_vg;
+
+		create database valleygl_vg;
+
+	    GRANT ALL ON valleygl_vg.* TO brian@'localhost' IDENTIFIED BY 'Thylocine2105';
+
+	    source db.sql;
 
 	# Update statement for the templates table
 

@@ -20317,6 +20317,8 @@ body {
 
 .content-img {
   border: 2px solid #006060;
+  padding: 4px;
+  cursor: pointer;
 }
 
 .row-container,
@@ -20693,6 +20695,15 @@ body {
   margin: 4px;
 }
 
+.cookie-consent-dialog {
+  color: #000;
+  background-color: #ff0066;
+}
+
+.cookie-consent-message {
+  font-weight: bold;
+}
+
 .headshot {
     width: 100%;
     border-bottom: 10px solid black;
@@ -20701,6 +20712,14 @@ body {
 #home {
   margin: 0;
   height: 0;
+}
+
+.fixed-bottom {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1030;
 }
 
 /* Media queries */
