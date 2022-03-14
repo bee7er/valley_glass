@@ -20722,6 +20722,27 @@ body {
   z-index: 1030;
 }
 
+/* Wordle page */
+.wletter, .missing, .present, .correct {
+  padding-left: 6px;
+}
+
+.missing {
+  background-color: lightgrey;
+}
+
+.present {
+  background-color: yellow !important;
+}
+
+.correct {
+  background-color: lightgreen;
+}
+
+.error-message {
+  color: #c40000;
+}
+
 /* Media queries */
 
 @media (max-width: 1200px) {

@@ -22,4 +22,9 @@ class PagesController extends Controller {
 		return view('pages.contact');
 	}
 
+	public function wordle()
+	{
+		return view('pages.wordle');
+	}
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Word;
 use Exception;
 use Illuminate\Auth\Guard;
 
@@ -120,7 +121,7 @@ class HomeController extends Controller
 	 */
 	public function design()
 	{
-		return $this->index(0);
+		return $this->index(false);
 	}
 
 	/**
@@ -130,7 +131,7 @@ class HomeController extends Controller
 	 */
 	public function repair()
 	{
-		return $this->index(1);
+		return $this->index(true);
 	}
 
 	/**
@@ -252,7 +253,108 @@ class HomeController extends Controller
 			print_r($response->headers());
 			print $response->body() . "\n";
 		}
-
 	}
 
+	private $maxrows = 6;
+	private $maxcols = 5;
+	private $alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','enter','del'];
+
+	/**
+	 * Show the wordle app to user
+	 *
+	 * @return Response
+	 */
+	public function wordle(Request $request)
+	{
+		$row = 1;
+		// Generate today's word
+		$wordsList = Word::where('wordno', '>', 0)->get();
+		$wordsCount = count($wordsList);
+		$error = '';
+
+		$word = Word::where([ 'wordno' => rand(1,$wordsCount) ])->get()->first()->wordle;
+//		$word = 'spear';
+
+		foreach ($this->alphabet as $letter) {
+			$var = "wletter$letter";
+			$$var = 'wletter';
+		}
+
+		for ($i = 1; $i <= $this->maxrows; $i++) {
+			for ($j = 1; $j <= $this->maxcols; $j++) {
+				$var = "wletter$i$j";
+				$$var = 'wletter';
+			}
+		}
+
+		return view('pages.wordle', compact('request', 'error', 'row', 'word', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
+	}
+
+	/**
+	 * Show the wordle app to user
+	 *
+	 * @return Response
+	 */
+	public function updateWordle(Request $request)
+	{
+		$row = $request->get('row');
+		$word = $request->get('word');
+
+		// Check that the attempt exists in the table of words
+		$error = false;
+		$attemptAry = [];
+		for ($j = 1; $j <= $this->maxcols; $j++) {
+			$attemptAry[] = $request->get("wletter$row$j");
+		}
+		$attempt = implode('', $attemptAry);
+		if (null === Word::where([ 'wordle' => $attempt ])->get()->first()) {
+			$error = 'Word does not exist';
+		}
+
+		// Initialise the keyboard to starting state
+		foreach ($this->alphabet as $letter) {
+			$var = "wletter$letter";
+			$$var = 'wletter';
+		}
+
+
+		for ($i = 1; $i <= $this->maxrows; $i++) {
+
+			$testWord = $word;
+
+			for ($j = 1; $j <= $this->maxcols; $j++) {
+				$var = "wletter$i$j";
+				// Check if the submitted letter appears in the word
+				$class = 'missing';
+				$letter = $request->get($var);
+
+				if ($letter == substr($testWord, $j - 1, 1)) {
+					$class = 'correct';
+					// Remove from the word so we don't count it again
+					$testWord = substr_replace($testWord,'*',$j - 1, 1);
+				} elseif (false !== ($pos = strpos($testWord, ($letter ? :' ')))) {
+					$class = 'present';
+					// Remove from the word so we don't count it again
+					$testWord = substr_replace($testWord,'*',$j - 1, 1);
+				}
+				if ($i < $row) {
+					$$var = $class;
+				} elseif ($i == $row && !$error) {
+					$$var = $class;
+				} else {
+					$$var = 'wletter';
+				}
+
+				// Set the alphabet class
+				$var = "wletter$letter";
+				$$var = $class;
+			}
+		}
+
+		if (!$error) {
+			$row += 1;
+		}
+
+		return view('pages.wordle', compact('request', 'error', 'row', 'word', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
+	}
 }
