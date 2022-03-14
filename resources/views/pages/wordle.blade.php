@@ -107,6 +107,7 @@
                                 <div class="row">
                                     <p>&nbsp;</p><br>
                                     <button class="{{$wletterenter}}" onclick="return showWord(this)">Show word</button>
+                                    &nbsp;&nbsp;
                                     <button class="{{$wletterenter}}" onclick="return nextWord(this)">Next word</button>
                                 </div>
                             </div>
@@ -128,26 +129,34 @@
             if ($(buttonElem).text() == 'enter') {
                 // Ignore
             } else if ($(buttonElem).text() == '<--') {
-
-                if (pos == 5 && $('#wletter{{ $row }}' + pos).val() != ' ') {
-                    $('#wletter{{ $row }}' + pos).val(' ');
-                } else {
-                    pos -= 1;
-                    if (pos < 1) {
-                        pos = 1;
-                    }
-                    $('#wletter{{ $row }}' + pos).val(' ');
-                }
-
+                deleteChar();
             } else {
-                $('#wletter{{ $row }}' + pos).val($(buttonElem).text());
-                pos += 1;
-                if (pos > 5) {
-                    pos = 5;
-                }
+                setChar($(buttonElem).text());
             }
 
             return false;
+        }
+
+        function deleteChar()
+        {
+            if (pos == 5 && $('#wletter{{ $row }}' + pos).val() != ' ') {
+                $('#wletter{{ $row }}' + pos).val(' ');
+            } else {
+                pos -= 1;
+                if (pos < 1) {
+                    pos = 1;
+                }
+                $('#wletter{{ $row }}' + pos).val(' ');
+            }
+        }
+
+        function setChar(char)
+        {
+            $('#wletter{{ $row }}' + pos).val(char);
+            pos += 1;
+            if (pos > 5) {
+                pos = 5;
+            }
         }
 
         function showWord()
@@ -164,11 +173,32 @@
 
         function processForm()
         {
-            if (pos == 5 && $('#wletter{{ $row }}' + pos).val() != ' ') {
+            let char = $.trim($('#wletter{{ $row }}' + pos).val());
+            if (pos == 5 && char != '') {
                 $("#wordleForm").submit();
                 return true;
             }
             return false;
         }
+
+        // Capture and process keyboard events
+        $(document).keyup(function(event)
+        {
+            if (event.preventDefault) event.preventDefault();
+
+            let char = $.trim(event.key.toLowerCase());
+            if (char == 'enter') {
+                return processForm();
+            } else if (char == 'backspace') {
+                deleteChar();
+            } else if (char.length > 1) {
+                // Ignore
+            } else if (char >= 'a' && char <= 'z') {
+                setChar(char);
+            }
+
+            return false;
+        });
+
     </script>
 @endsection

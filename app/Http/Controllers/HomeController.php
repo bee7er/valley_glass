@@ -273,7 +273,7 @@ class HomeController extends Controller
 		$error = '';
 
 		$word = Word::where([ 'wordno' => rand(1,$wordsCount) ])->get()->first()->wordle;
-//		$word = 'spear';
+//		$word = 'liter';
 
 		foreach ($this->alphabet as $letter) {
 			$var = "wletter$letter";
@@ -307,8 +307,15 @@ class HomeController extends Controller
 			$attemptAry[] = $request->get("wletter$row$j");
 		}
 		$attempt = implode('', $attemptAry);
-		if (null === Word::where([ 'wordle' => $attempt ])->get()->first()) {
-			$error = 'Word does not exist';
+		if (null === Word::where([ 'wordle' => $attempt ])->get()->first())
+		{
+			$error = "Word '$attempt' does not exist in the database";
+			// Reset the error word to blank
+			$mergeAry = [];
+			for ($j = 1; $j <= $this->maxcols; $j++) {
+				$mergeAry["wletter$row$j"] = '';
+			}
+			$request->merge($mergeAry);
 		}
 
 		// Initialise the keyboard to starting state
@@ -316,7 +323,6 @@ class HomeController extends Controller
 			$var = "wletter$letter";
 			$$var = 'wletter';
 		}
-
 
 		for ($i = 1; $i <= $this->maxrows; $i++) {
 
@@ -328,14 +334,18 @@ class HomeController extends Controller
 				$class = 'missing';
 				$letter = $request->get($var);
 
+//				if ($i == 3 && $j == 4) {
+//					dd('char=' . $letter . ', test=' . $testWord . ', row=' . $row . ', i=' . $i);
+//				}
+
 				if ($letter == substr($testWord, $j - 1, 1)) {
 					$class = 'correct';
 					// Remove from the word so we don't count it again
-					$testWord = substr_replace($testWord,'*',$j - 1, 1);
+					$testWord = substr_replace($testWord, '*', $j - 1, 1);
 				} elseif (false !== ($pos = strpos($testWord, ($letter ? :' ')))) {
 					$class = 'present';
 					// Remove from the word so we don't count it again
-					$testWord = substr_replace($testWord,'*',$j - 1, 1);
+					$testWord = substr_replace($testWord, '*', $j - 1, 1);
 				}
 				if ($i < $row) {
 					$$var = $class;
@@ -344,6 +354,10 @@ class HomeController extends Controller
 				} else {
 					$$var = 'wletter';
 				}
+
+//				if ($i == 3 && $j == 4) {
+//					//dd('char=' . $letter . ', test=' . $testWord . ', class=' . $class . ', row=' . $row . ', i=' . $i);
+//				}
 
 				// Set the alphabet class
 				$var = "wletter$letter";
