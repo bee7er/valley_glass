@@ -270,10 +270,10 @@ class HomeController extends Controller
 		// Generate today's word
 		$wordsList = Word::where('wordno', '>', 0)->get();
 		$wordsCount = count($wordsList);
-		$error = '';
+		$msg = '';
 
 		$word = Word::where([ 'wordno' => rand(1,$wordsCount) ])->get()->first()->wordle;
-//		$word = 'liter';
+		//$word = 'evade';
 
 		foreach ($this->alphabet as $letter) {
 			$var = "wletter$letter";
@@ -287,7 +287,7 @@ class HomeController extends Controller
 			}
 		}
 
-		return view('pages.wordle', compact('request', 'error', 'row', 'word', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
+		return view('pages.wordle', compact('request', 'msg', 'row', 'word', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
 	}
 
 	/**
@@ -301,15 +301,19 @@ class HomeController extends Controller
 		$word = $request->get('word');
 
 		// Check that the attempt exists in the table of words
-		$error = false;
+		$error = $msg = false;
 		$attemptAry = [];
 		for ($j = 1; $j <= $this->maxcols; $j++) {
 			$attemptAry[] = $request->get("wletter$row$j");
 		}
 		$attempt = implode('', $attemptAry);
-		if (null === Word::where([ 'wordle' => $attempt ])->get()->first())
+		if ($attempt === $word)
 		{
-			$error = "Word '$attempt' does not exist in the database";
+			$msg = "Yay! You did it.";
+		} elseif (null === Word::where([ 'wordle' => $attempt ])->get()->first())
+		{
+			$msg = "Word '$attempt' does not exist in the database";
+			$error = true;
 			// Reset the error word to blank
 			$mergeAry = [];
 			for ($j = 1; $j <= $this->maxcols; $j++) {
@@ -334,10 +338,6 @@ class HomeController extends Controller
 				$class = 'missing';
 				$letter = $request->get($var);
 
-//				if ($i == 3 && $j == 4) {
-//					dd('char=' . $letter . ', test=' . $testWord . ', row=' . $row . ', i=' . $i);
-//				}
-
 				if ($letter == substr($testWord, $j - 1, 1)) {
 					$class = 'correct';
 					// Remove from the word so we don't count it again
@@ -345,7 +345,7 @@ class HomeController extends Controller
 				} elseif (false !== ($pos = strpos($testWord, ($letter ? :' ')))) {
 					$class = 'present';
 					// Remove from the word so we don't count it again
-					$testWord = substr_replace($testWord, '*', $j - 1, 1);
+					$testWord = substr_replace($testWord, '*', $pos, 1);
 				}
 				if ($i < $row) {
 					$$var = $class;
@@ -354,10 +354,6 @@ class HomeController extends Controller
 				} else {
 					$$var = 'wletter';
 				}
-
-//				if ($i == 3 && $j == 4) {
-//					//dd('char=' . $letter . ', test=' . $testWord . ', class=' . $class . ', row=' . $row . ', i=' . $i);
-//				}
 
 				// Set the alphabet class
 				$var = "wletter$letter";
@@ -369,6 +365,6 @@ class HomeController extends Controller
 			$row += 1;
 		}
 
-		return view('pages.wordle', compact('request', 'error', 'row', 'word', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
+		return view('pages.wordle', compact('request', 'msg', 'row', 'word', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
 	}
 }
