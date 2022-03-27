@@ -18,6 +18,8 @@ Route::post('/contact', 'HomeController@processContactForm');
 Route::get('/about', 'HomeController@about');
 Route::get('/wordle', 'HomeController@wordle');
 Route::post('/wordle', 'HomeController@updateWordle');
+Route::post('/addWord', 'HomeController@addWord');
+Route::post('/chooseWord', 'HomeController@chooseWord');
 // NB Using the following as an alias to content controller
 Route::get('/{name}', 'ContentController@show');
 // Others

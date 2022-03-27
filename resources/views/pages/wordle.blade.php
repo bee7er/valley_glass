@@ -16,6 +16,7 @@
                             <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="row" value="{{ $row }}">
                             <input type="hidden" name="word" value="{{ $word }}">
+                            <input type="hidden" name="wordNumber" id="wordNumber" value="{{ $wordNumber }}">
 
                             <p>
                                 <input type="text" id="wletter11" name="wletter11" size="1" class="{{$wletter11}}" value="{{$request->wletter11 }}" readonly>
@@ -109,6 +110,20 @@
                                     &nbsp;&nbsp;
                                     <button class="{{$wletterenter}}" onclick="return copyForm()">Share</button>
                                 </div>
+                                <div class="row">
+                                    <br>
+                                    <p>Choose word by word number</p>
+                                    <div id="wordNoErrorMessage" class="error-message">{{ $wordNoErrorMessage }}</div>
+                                    <input type="text" size="5" name="wordNo" id="wordNo">&nbsp;</input>
+                                    <button class="{{$wletterenter}}" onclick="return chooseWord()">Choose word</button>
+                                </div>
+                                <div class="row">
+                                    <br>
+                                    <p>Add words that do not exist in the database</p>
+                                    <div id="addErrorMessage" class="error-message">{{ $addErrorMessage }}</div>
+                                    <input type="text" size="5" name="newWord" id="newWord">&nbsp;</input>
+                                    <button class="{{$wletterenter}}" onclick="return addWord()">Add word</button>
+                                </div>
                             </div>
                         </form>
                     </div><br>
@@ -186,22 +201,23 @@
                     document.body.appendChild(target);
                 }
 
-                let clipboard = '';
+                // Load the clipboard with the result
+                let clipboard = "Brian's Wordle\n";
+                clipboard += 'Word number: ' + $('#wordNumber').val() + "\n";
                 for (let r=1; r<={{$row}}; r++) {
                     for (let c=1; c<=5; c++) {
                         let elemClass = $('#wletter' + r + c).attr('class');
 
                         if (elemClass == 'missing') {
-                            clipboard += 'x';
+                            clipboard += '\u{2B1C}';
                         } else if (elemClass == 'present') {
-                            clipboard += 'p';
+                            clipboard += '\u{1F7E8}';
                         } else if (elemClass == 'correct') {
-                            clipboard += 'c';
+                            clipboard += '\u{1F7E9}';
                         }
                     }
                     clipboard += "\n";
                 }
-                clipboard += 'x=not present, p=present, c=correct';
 
                 target.textContent = clipboard;
             }
@@ -231,6 +247,7 @@
                 // clear temporary content
                 target.textContent = "";
             }
+            $('#errorMessage').text('Result copied to clipboard').fadeIn(800).delay(3000).fadeOut(800);
 
             return succeed;
         }
@@ -238,6 +255,32 @@
         function copyForm()
         {
             copyToClipboard(document.getElementById("errorMessage"));
+            return false;
+        }
+
+        function chooseWord()
+        {
+            let wordNo = $.trim($('#wordNo').val());
+            if ('' == wordNo) {
+                $('#wordNoErrorMessage').html('Please enter your choice of word number');
+            } else {
+                $("#wordleForm").attr('action', '/chooseWord');
+                $("#wordleForm").submit();
+                return true;
+            }
+            return false;
+        }
+
+        function addWord()
+        {
+            let newWord = $.trim($('#newWord').val());
+            if ('' == newWord) {
+                $('#addErrorMessage').html('Please enter a new word');
+            } else {
+                $("#wordleForm").attr('action', '/addWord');
+                $("#wordleForm").submit();
+                return true;
+            }
             return false;
         }
 
