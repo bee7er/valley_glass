@@ -23,6 +23,9 @@ class HomeController extends Controller
 	use ValidatesRequests;
 
 	const ABOUT_TEMPLATE = '*About';
+	const FIRST_PASS = 0;
+	const SECOND_PASS = 1;
+	const MAX_ATTEMPTS = 6;
 
 	/**
 	 * The Guard implementation.
@@ -264,7 +267,7 @@ class HomeController extends Controller
 	 *
 	 * @return Response
 	 */
-	public function wordle(Request $request, $addErrorMessage = '', $wordNoErrorMessage = '', $wordNo = null)
+	public function wordle(Request $request, $addErrorMessage = '', $wordErrorMessage = '', $wordNoErrorMessage = '', $wordNo = null, $setWord = null)
 	{
 		$row = 1;
 		$msg = '';
@@ -274,6 +277,11 @@ class HomeController extends Controller
 			$word = $wordRcd->wordle;
 			$wordNumber = $wordRcd->wordno;
 			$msg = "Word chosen by word number '$wordNo'";
+		} elseif (null != $setWord) {
+            $wordRcd = Word::where(['wordle' => $setWord])->get()->first();
+            $word = $wordRcd->wordle;
+            $wordNumber = $wordRcd->wordno;
+            $msg = "Word chosen by player has word number '$wordNumber'";
 		} else {
 			// Generate today's word
 			$wordsList = Word::where('wordno', '>', 0)->get();
@@ -282,7 +290,13 @@ class HomeController extends Controller
 			$word = $wordRcd->wordle;
 			$wordNumber = $wordRcd->wordno;
 		}
-//		$word = 'label';
+		//$word = 'combo';
+//		$word = 'lurid';	// grind
+//		$word = 'level';	// lilly, devil, slave, value
+//		$word = 'frost';	// roost
+//		$word = 'sever';	// spoil, stark, scree, sewer
+//		$word = 'agape';	// claim, spark, plate
+//		$word = 'madam';	// fagot, wavey, maxim
 
 		foreach ($this->alphabet as $letter) {
 			$var = "wletter$letter";
@@ -301,7 +315,7 @@ class HomeController extends Controller
 		}
 		$request->merge($mergeAry);
 
-		return view('pages.wordle', compact('request', 'wordNoErrorMessage', 'addErrorMessage', 'msg', 'row', 'word', 'wordNumber', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
+		return view('pages.wordle', compact('request', 'wordNoErrorMessage', 'wordErrorMessage', 'addErrorMessage', 'msg', 'row', 'word', 'wordNumber', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
 	}
 
 	/**
@@ -318,10 +332,30 @@ class HomeController extends Controller
 		if (null === ($word = Word::where([ 'wordno' => $wordNo ])->get()->first())) {
 			$wordNoErrorMessage = "Word not found for word number: $wordNo";
 		} else {
-			return $this->wordle($request, '', '', $wordNo);
+			return $this->wordle($request, '', '', '', $wordNo);
 		}
 
 		return $this->wordle($request, '', $wordNoErrorMessage);
+	}
+
+	/**
+	 * Set target word
+	 *
+	 * @return Response
+	 */
+	public function setWord(Request $request)
+	{
+		$setWord = trim(strtolower($request->get('setWord')));
+
+		// Check if the attempt exists in the table of words
+		$wordErrorMessage = false;
+		if (null === ($word = Word::where([ 'wordle' => $setWord ])->get()->first())) {
+			$wordErrorMessage = "Word not found in word list: $setWord";
+		} else {
+			return $this->wordle($request, '', '', '', null, $setWord);
+		}
+
+		return $this->wordle($request, '', '', $wordErrorMessage);
 	}
 
 	/**
@@ -349,7 +383,7 @@ class HomeController extends Controller
 	}
 
 	/**
-	 * Show the wordle app to user
+	 * Process the wordle attempts
 	 *
 	 * @return Response
 	 */
@@ -358,24 +392,35 @@ class HomeController extends Controller
 		$row = $request->get('row');
 		$word = $request->get('word');
 		$wordNumber = $request->get('wordNumber');
-
-		// Check that the attempt exists in the table of words
-		$error = $msg = $addErrorMessage = $wordNoErrorMessage = false;
-		$attemptAry = [];
-		for ($j = 1; $j <= $this->maxcols; $j++) {
-			$attemptAry[] = $request->get("wletter$row$j");
-		}
-		$attempt = implode('', $attemptAry);
+        // Validate the attempted word
+		$error = $msg = $addErrorMessage = $wordErrorMessage = $wordNoErrorMessage = false;
+        $attempt = null;
+        $attemptAry = [];
+        for ($j = 1; $j <= $this->maxcols; $j++)
+        {
+            $attemptAry[] = $request->get("wletter$row$j");
+        }
+        $attempt = implode('', $attemptAry);
 		if ($attempt === $word)
 		{
-			if (null === ($wordRcd = Word::where([ 'wordle' => $word ])->get()->first())) {
+			if (null === ($wordRcd = Word::where([ 'wordle' => $word ])->get()->first()))
+            {
 				// Should not happen
 				$msg = "Something went wrong getting word '$word'";
 			} else {
-				$msg = "Yay! You did it for word '{$wordRcd->wordle}' with word number '{$wordRcd->wordno}'";
+				$kudos = 'Yay!';
+				switch ($row) {
+					case '1': $kudos = 'Lucky!';break;
+					case '2': $kudos = 'Impressive!';break;
+					case '3': $kudos = 'Clever!';break;
+					case '4': $kudos = 'Ok, good!';break;
+					case '5': $kudos = 'Just about!';break;
+					case '6': $kudos = 'That was close!';break;
+				}
+				$msg = "$kudos You did it for word '{$wordRcd->wordle}' with word number '{$wordRcd->wordno}'";
 			}
 
-		} elseif ($attempt !== $word && $row == 6)
+		} elseif ($attempt !== $word && $row == self::MAX_ATTEMPTS)
 		{
 			$msg = "Sorry that's not right. The word was '$word'. Try another.";
 
@@ -385,55 +430,98 @@ class HomeController extends Controller
 			$error = true;
 			// Reset the error word to blank
 			$mergeAry = [];
-			for ($j = 1; $j <= $this->maxcols; $j++) {
+			for ($j = 1; $j <= $this->maxcols; $j++)
+            {
 				$mergeAry["wletter$row$j"] = '';
 			}
 			$request->merge($mergeAry);
 		}
 
+		// Even if error we analyse all the attempts anyway
 		// Initialise the keyboard to starting state
-		foreach ($this->alphabet as $letter) {
+		foreach ($this->alphabet as $letter)
+        {
 			$var = "wletter$letter";
 			$$var = 'wletter';
 		}
 
-		for ($i = 1; $i <= $this->maxrows; $i++) {
+		// Iterate for all the rows, i.e. each attempt in turn
+		for ($i = 1; $i <= $this->maxrows; $i++)
+        {
+            $testWord = $word;  // NB Refresh the target word each iteration
 
-			$testWord = $word;
+            for ($p = self::FIRST_PASS; $p <= self::SECOND_PASS; $p++)
+            {
+                // We set the attributes of both the attempt letter and the letter in the keyboard
+                for ($j = 1; $j <= $this->maxcols; $j++)
+                {
+                    if ('*' == $testWord[$j - 1])
+                    {
+                        // Ignore successfully identified letters in the second pass
+                        continue;
+                    }
 
-			for ($j = 1; $j <= $this->maxcols; $j++) {
-				$var = "wletter$i$j";
-				// Check if the submitted letter appears in the word
-				$class = 'missing';
-				$letter = $request->get($var);
+                    $var = "wletter$i$j";
+                    // Check if the submitted letter appears in the word
+                    $class = 'missing';
+                    $letter = $request->get("wletter$i$j");
+                    // On first pass try to identify the correctly attempted letters
+                    if (self::FIRST_PASS == $p)
+                    {
+                        if ($letter == substr($testWord, $j - 1, 1))
+                        {
+                            $class = 'correct';
+                            // Remove from the word so we don't count it again
+                            $testWord = substr_replace($testWord, '*', $j - 1, 1);
+                        }
+                    } else {
+                        // Second pass we try to identify the present letters
+                        $pos = strpos($testWord, ($letter ?: ' '));
+                        if (false !== $pos)
+                        {
+                            $class = 'present';
+                            // Remove from the word so we don't count it again
+                            $testWord = substr_replace($testWord, '$', $pos, 1);
+                        }
+                    }
+                    // Set the attempted letter class
+                    if ($i < $row)
+                    {
+                        $$var = $class;
+                    } elseif ($i == $row && !$error)
+                    {
+                        $$var = $class;
+                    } else {
+                        $$var = 'wletter';
+                    }
 
-				if ($letter == substr($testWord, $j - 1, 1)) {
-					$class = 'correct';
-					// Remove from the word so we don't count it again
-					$testWord = substr_replace($testWord, '*', $j - 1, 1);
-				} elseif (false !== ($pos = strpos($testWord, ($letter ? :' ')))) {
-					$class = 'present';
-					// Remove from the word so we don't count it again
-					$testWord = substr_replace($testWord, '*', $pos, 1);
-				}
-				if ($i < $row) {
-					$$var = $class;
-				} elseif ($i == $row && !$error) {
-					$$var = $class;
-				} else {
-					$$var = 'wletter';
-				}
-
-				// Set the alphabet class
-				$var = "wletter$letter";
-				$$var = $class;
-			}
+                    // Set the alphabet class
+                    $var = "wletter$letter";
+                    // In this latest attempt we actually set the alphabet letters
+                    if (isset($$var))
+                    {
+                        if ($$var == 'correct')
+                        {
+                            // Do nothing, it is correct
+                        } elseif ($class != 'missing')
+                        {
+                            // Class is present or correct and we are either moving correct to one
+                            // which was only present or moving present to one which was missing
+                            $$var = $class;
+                        } else {
+                            // The letter is neither correct nor present, so it is missing
+                            $$var = $class;
+                        }
+                    }
+                }
+            }
 		}
 
-		if (!$error) {
+		if (!$error)
+        {
 			$row += 1;
 		}
 
-		return view('pages.wordle', compact('request', 'wordNoErrorMessage', 'addErrorMessage', 'msg', 'row', 'word', 'wordNumber', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
+		return view('pages.wordle', compact('request', 'wordNoErrorMessage', 'wordErrorMessage', 'addErrorMessage', 'msg', 'row', 'word', 'wordNumber', 'wlettera', 'wletterb', 'wletterc', 'wletterd', 'wlettere', 'wletterf', 'wletterg', 'wletterh', 'wletteri', 'wletterj', 'wletterk', 'wletterl', 'wletterm', 'wlettern', 'wlettero', 'wletterp', 'wletterq', 'wletterr', 'wletters', 'wlettert', 'wletteru', 'wletterv', 'wletterw', 'wletterx', 'wlettery', 'wletterz', 'wletterdel', 'wletterenter', 'wletter11', 'wletter12', 'wletter13', 'wletter14', 'wletter15', 'wletter21', 'wletter22', 'wletter23', 'wletter24', 'wletter25', 'wletter31', 'wletter32', 'wletter33', 'wletter34', 'wletter35', 'wletter41', 'wletter42', 'wletter43', 'wletter44', 'wletter45', 'wletter51', 'wletter52', 'wletter53', 'wletter54', 'wletter55', 'wletter61', 'wletter62', 'wletter63', 'wletter64', 'wletter65'));
 	}
 }

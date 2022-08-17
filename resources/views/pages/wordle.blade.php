@@ -112,17 +112,24 @@
                                 </div>
                                 <div class="row">
                                     <br>
-                                    <p>Choose word by word number</p>
-                                    <div id="wordNoErrorMessage" class="error-message">{{ $wordNoErrorMessage }}</div>
-                                    <input type="text" size="5" name="wordNo" id="wordNo">&nbsp;</input>
-                                    <button class="{{$wletterenter}}" onclick="return chooseWord()">Choose word</button>
-                                </div>
-                                <div class="row">
-                                    <br>
                                     <p>Add words that do not exist in the database</p>
                                     <div id="addErrorMessage" class="error-message">{{ $addErrorMessage }}</div>
                                     <input type="text" size="5" name="newWord" id="newWord">&nbsp;</input>
                                     <button class="{{$wletterenter}}" onclick="return addWord()">Add word</button>
+                                </div>
+                                <div class="row">
+                                    <br>
+                                    <p>Set target word</p>
+                                    <div id="wordErrorMessage" class="error-message">{{ $wordErrorMessage }}</div>
+                                    <input type="text" size="5" name="setWord" id="setWord">&nbsp;</input>
+                                    <button class="{{$wletterenter}}" onclick="return setNewWord()">Set word</button>
+                                </div>
+                                <div class="row">
+                                    <br>
+                                    <p>Choose word by word number</p>
+                                    <div id="wordNoErrorMessage" class="error-message">{{ $wordNoErrorMessage }}</div>
+                                    <input type="text" size="5" name="wordNo" id="wordNo">&nbsp;</input>
+                                    <button class="{{$wletterenter}}" onclick="return chooseWord()">Choose word</button>
                                 </div>
                             </div>
                         </form>
@@ -140,8 +147,6 @@
 
         function addLetter(buttonElem)
         {
-            //console.log('but=' + $(buttonElem).text());
-
             if ($(buttonElem).text() == 'enter') {
                 // Ignore
             } else if ($(buttonElem).text() == 'del') {
@@ -176,7 +181,6 @@
                 pos = 5;
             }
         }
-
 
         function copyToClipboard(elem)
         {
@@ -258,6 +262,19 @@
             return false;
         }
 
+        function setNewWord()
+        {
+            let setWord = $.trim($('#setWord').val());
+            if ('' == setWord) {
+                $('#wordErrorMessage').html('Please enter your selected word');
+            } else {
+                $("#wordleForm").attr('action', '/setWord');
+                $("#wordleForm").submit();
+                return true;
+            }
+            return false;
+        }
+
         function chooseWord()
         {
             let wordNo = $.trim($('#wordNo').val());
@@ -286,7 +303,7 @@
 
         function showWord()
         {
-            $('#errorMessage').html('The current word is: {{$word}}');
+            $('#errorMessage').text('The current word is: {{$word}}').fadeIn(800).delay(3000).fadeOut(800);
             return false;
         }
 

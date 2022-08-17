@@ -7,13 +7,13 @@
 
     <title>Valley Glass :: @section('title') @show</title>
     @section('meta_keywords')
-        <meta name="keywords" content="stained glass, leaded glass, leaded windows"/>
+        <meta name="keywords" content="stained glass, leaded glass, leaded windows, create stained glass windows, repair stained glass windows, restore stained glass windows"/>
     @show @section('meta_author')
-        <meta name="author" content="Brian Etheridge web designer and programmer"/>
+        <meta name="author" content="Brian Etheridge"/>
     @show @section('meta_description')
-        <meta name="description" content="Brian Etheridge is a stained glass repairer, restorer and artisan"/>
+        <meta name="description" content="Brian Etheridge is a stained glass repairer, restorer and artisan creator"/>
     @show
-        <meta property="og:title" content="Brian Etheridge">
+        <meta property="og:title" content="Valley Glass">
         <meta property="og:image" content="img/images/black_hole.jpg">
         <meta property="og:description" content="Brian Etheridge is a stained glass artisan with many years experience.
         Please get in touch for more info and availability!">

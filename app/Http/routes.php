@@ -20,6 +20,7 @@ Route::get('/wordle', 'HomeController@wordle');
 Route::post('/wordle', 'HomeController@updateWordle');
 Route::post('/addWord', 'HomeController@addWord');
 Route::post('/chooseWord', 'HomeController@chooseWord');
+Route::post('/setWord', 'HomeController@setWord');
 // NB Using the following as an alias to content controller
 Route::get('/{name}', 'ContentController@show');
 // Others
